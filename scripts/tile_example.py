@@ -1,0 +1,22 @@
+{
+    ('3', ';10'): {'type': 'grass', 'variant': 1, 'pos': (3, 10)}, 
+    ('10;', '5'): {'type': 'stone', 'variant': 1, 'pos': (10, 5)}, 
+    ('4', ';10'): {'type': 'grass', 'variant': 1, 'pos': (4, 10)}, 
+    ('10;', '6'): {'type': 'stone', 'variant': 1, 'pos': (10, 6)}, 
+    ('5', ';10'): {'type': 'grass', 'variant': 1, 'pos': (5, 10)}, 
+    ('10;', '7'): {'type': 'stone', 'variant': 1, 'pos': (10, 7)}, 
+    ('6', ';10'): {'type': 'grass', 'variant': 1, 'pos': (6, 10)}, 
+    ('10;', '8'): {'type': 'stone', 'variant': 1, 'pos': (10, 8)}, 
+    ('7', ';10'): {'type': 'grass', 'variant': 1, 'pos': (7, 10)}, 
+    ('10;', '9'): {'type': 'stone', 'variant': 1, 'pos': (10, 9)}, 
+    ('8', ';10'): {'type': 'grass', 'variant': 1, 'pos': (8, 10)},
+    ('10;', '10'): {'type': 'stone', 'variant': 1, 'pos': (10, 10)},
+    ('9', ';10'): {'type': 'grass', 'variant': 1, 'pos': (9, 10)},
+    ('10;', '11'): {'type': 'stone', 'variant': 1, 'pos': (10, 11)},
+    ('10', ';10'): {'type': 'grass', 'variant': 1, 'pos': (10, 10)},
+    ('10;', '12'): {'type': 'stone', 'variant': 1, 'pos': (10, 12)}, 
+    ('11', ';10'): {'type': 'grass', 'variant': 1, 'pos': (11, 10)}, 
+    ('10;', '13'): {'type': 'stone', 'variant': 1, 'pos': (10, 13)}, 
+    ('12', ';10'): {'type': 'grass', 'variant': 1, 'pos': (12, 10)}, 
+    ('10;', '14'): {'type': 'stone', 'variant': 1, 'pos': (10, 14)}
+    }
