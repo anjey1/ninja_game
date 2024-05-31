@@ -41,7 +41,9 @@ def main():
     player_jump = pygame.transform.scale(player_jump, (player_width,player_height))
     player_jump_frame = 0
     # Landing
-    player_land = pygame.image.load("data/images/entities/player/slide/0.png").convert_alpha()
+    player_land = pygame.image.load("data/images/entities/player/slide/0.png")
+    player_land.set_colorkey((0,0,0))
+    player_land.convert_alpha()
     player_land = pygame.transform.scale(player_land, (player_width,player_height))
     # Create List Of Images
     player_right = [
@@ -104,15 +106,34 @@ def main():
         
         # Keep Player within screen limits
 
-        if y < 0:
-            y = 0
-        if y >= y_ground:
-            y = y_ground
-        if x < 0:
-            x = 0
-        if x >= window.get_width() - 50:
-            x = window.get_width() - 50
+        # World Still
+        # if y < 0:
+        #     y = 0
+        # if y >= y_ground:
+        #     y = y_ground
+        # if x < 0:
+        #     x = 0
+        # if x >= window.get_width() - 50:
+        #     x = window.get_width() - 50
 
+        # World Moves
+        if y < 134:                 
+            y = 134
+            world_offset[1] += 10
+        if y > y_ground:       
+            y = y_ground       
+            world_offset[1] -= 10
+            print(f'ssss')
+
+
+        if x < 140:
+            x = 140
+            world_offset[0] += 10
+
+
+        if x > window.get_width() - 140 - 50:
+            x = window.get_width() - 140 - 50
+            world_offset[0] -= 10
         
         # Draw the player
 
@@ -120,7 +141,7 @@ def main():
             window.blit(player_left[player_left_frame], (x,y))
             player_left_frame = (player_left_frame + 1) % len(player_left)
         elif direction == "right":
-            window.blit(player_left[player_right_frame], (x,y))
+            window.blit(player_right[player_right_frame], (x,y))
             player_right_frame = (player_right_frame + 1) % len(player_right)
         elif direction == "jump":
             window.blit(player_jump, (x,y))
@@ -132,7 +153,7 @@ def main():
 
         #************** Update screen ****************
         pygame.display.update()                             # Actually does the screen update
-        clock.tick(30)                               # Run at 30 frames per second
+        clock.tick(30)                                      # Run at 30 frames per second
 
 #*************** Initialize & run the game **************
 if __name__ == "__main__":

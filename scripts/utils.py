@@ -30,19 +30,19 @@ class Animation:
         return Animation(self.images,self.img_duration,self.loop)
     
     def update(self):
-        # (0 + 1) % (5 * 5) - does the number matter hahahaha :))) = 1
+        # (0 + 1) % (5 * 5) - does the number matter ? = 1
         # (1 + 1) % (5 * 5) = 2
         if self.loop: 
             self.frame = (self.frame + 1) % (self.img_duration * len(self.images))
         else:
-            # min(3+1, 5 * 2 - 1) - ?
-            self.frame = min(self.frame + 1, self.img_duration * len(self.images) - 1) # idle ?
+            # min(3+1 , 5 * 2 - 1) - ?
+            self.frame = min(self.frame + 1, self.img_duration * len(self.images) - 1) # not to loop over ?
             if self.frame >= self.img_duration * len(self.images) - 1:
                 self.done = True
     
         
     def img(self):
-        # WTF ?
+        # ?
         # 1 / 5 = 0.2
         # 2 / 5 = 0.4
         # 3 / 5 = 0.6
