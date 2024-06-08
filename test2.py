@@ -26,25 +26,29 @@ def blit_all_tiles(window, tmxdata, world_offset):
             print(layer.tiles())
 
 def main():
-    tmxdata = load_pygame("beta_map.tmx")
+    tmxdata = load_pygame("map.tmx")
     y_ground = window.get_height() - 134
     player_width = 50
     player_height = 70
     quit = False
     x = 400
     y = y_ground
+
     # Load a single image for standing still
     player_stand = pygame.image.load("data/images/entities/player/idle/00.png").convert_alpha()
     player_stand = pygame.transform.scale(player_stand, (player_width,player_height))
+    
     # Jumping
     player_jump =  pygame.image.load("data/images/entities/player/jump/0.png").convert_alpha()
     player_jump = pygame.transform.scale(player_jump, (player_width,player_height))
     player_jump_frame = 0
+    
     # Landing
     player_land = pygame.image.load("data/images/entities/player/slide/0.png")
     player_land.set_colorkey((0,0,0))
     player_land.convert_alpha()
     player_land = pygame.transform.scale(player_land, (player_width,player_height))
+    
     # Create List Of Images
     player_right = [
         pygame.image.load("data/images/entities/player/run/0.png").convert_alpha(),
@@ -67,11 +71,13 @@ def main():
     # Maintain our direction
     direction = "stand"
 
+    # change from camera original setting (x,y)
     world_offset = [0,0]
+
 
     #*************** Start game loop ***************
     while not quit:
-        window.fill((64,64,64))
+        window.fill((164,164,164))
         blit_all_tiles(window, tmxdata, world_offset)
         #******* Proccess events **********
         keypressed = pygame.key.get_pressed()
@@ -99,7 +105,7 @@ def main():
         if player_jump_frame > 0: # Jumping in progress
             y = y - 10
             direction = "jump"
-            player_jump_frame -=1
+            player_jump_frame -=1 # 20 - 1
         elif y < y_ground:
             y = y + 10
             direction = "land"
@@ -120,20 +126,26 @@ def main():
         if y < 134:                 
             y = 134
             world_offset[1] += 10
+            print(y)
+            print(world_offset)
         if y > y_ground:       
             y = y_ground       
             world_offset[1] -= 10
-            print(f'ssss')
+            print(y)
+            print(world_offset)
 
 
         if x < 140:
             x = 140
             world_offset[0] += 10
-
+            print(x)
+            print(world_offset)
 
         if x > window.get_width() - 140 - 50:
             x = window.get_width() - 140 - 50
             world_offset[0] -= 10
+            print(x)
+            print(world_offset)
         
         # Draw the player
 
