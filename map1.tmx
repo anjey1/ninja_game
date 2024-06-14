@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="git" orientation="orthogonal" renderorder="right-down" width="200" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="15">
- <tileset firstgid="1" source="../../../snap/tiled/4217/tileset.tsx"/>
+ <tileset firstgid="1" source="/home/andrei/VisualStudioProjects/pygame_platformer/ninja_game/data/images/tiles/tileset.tsx"/>
  <layer id="1" name="Ground" width="200" height="20">
   <properties>
    <property name="climable" type="int" value="0"/>

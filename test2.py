@@ -27,8 +27,6 @@ def blit_all_tiles(window, tmxdata, world_offset):
         except:
             print('Error getting tiles from layer !')
 
-
-
 def get_tile_properties(tmxdata, x, y, world_offset):
     world_x = x - world_offset[0]
     world_y = y - world_offset[1]
@@ -54,13 +52,13 @@ def load_image(path):
 def main():
 
     # Loading State
-    tmxdata = load_pygame("beta_map.tmx")
+    tmxdata = load_pygame("map2.tmx")
     y_ground = window.get_height() - 118
     player_width = 40
     player_height = 56
     quit = False
     x = 400
-    y = y_ground
+    y = y_ground - 5
 
 
     # Load a single image for standing still
