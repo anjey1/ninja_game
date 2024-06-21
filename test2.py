@@ -2,6 +2,10 @@ import pygame, time, random
 from pygame.locals import *
 from pytmx.util_pygame import load_pygame
 
+BASE_IMG_PATH = "data/images/"
+PIXELS_IN_TILE = 32
+
+
 def blit_all_tiles(window, tmxdata, world_offset):
     for layer in tmxdata:
         try:
@@ -25,7 +29,47 @@ def blit_all_tiles(window, tmxdata, world_offset):
             print('Warning !')
             print(layer.tiles())
 
+def get_tile_properties(tmxdata, x, y, world_offset):
+    world_x = x - world_offset[0]
+    world_y = y - world_offset[1]
+    tile_x = world_x // PIXELS_IN_TILE # pixels in tile
+    tile_y = world_y // PIXELS_IN_TILE # pixels in tile
+
+    # *********** Handle tile properties**************
+    try:
+        properties = tmxdata.get_tile_properties(tile_x, tile_y, 0)
+    except ValueError:
+        # Fill in missing tiles with default values and kill on sight
+        properties = {
+        "climable": 0,
+        "ground": 0,
+        "health": -9999,
+        "points": 0,
+        "provides": "",
+        "requires": "",
+        "solid": 0,
+        }
+
+    if properties is None:
+        properties = {
+        "climable": 0,
+        "ground": 0,
+        "health": 0,
+        "points": 0,
+        "provides": "",
+        "requires": "",
+        "solid": 0,
+        }
+    return properties
+
+def load_image(path):
+    img = pygame.image.load(BASE_IMG_PATH + path).convert()
+    img.set_colorkey((0,0,0))
+    return img
+
 def main():
+    LAST_DIRECTION = ""
+
     tmxdata = load_pygame("map.tmx")
     y_ground = window.get_height() - 134
     player_width = 50
@@ -35,26 +79,26 @@ def main():
     y = y_ground
 
     # Load a single image for standing still
-    player_stand = pygame.image.load("data/images/entities/player/idle/00.png").convert_alpha()
+    player_stand = load_image("entities/player/idle/00.png")
     player_stand = pygame.transform.scale(player_stand, (player_width,player_height))
     
     # Jumping
-    player_jump =  pygame.image.load("data/images/entities/player/jump/0.png").convert_alpha()
+    player_jump =  load_image("entities/player/jump/0.png")
     player_jump = pygame.transform.scale(player_jump, (player_width,player_height))
     player_jump_frame = 0
     
     # Landing
-    player_land = pygame.image.load("data/images/entities/player/slide/0.png")
-    player_land.set_colorkey((0,0,0))
-    player_land.convert_alpha()
+    player_land = load_image("entities/player/slide/0.png")
     player_land = pygame.transform.scale(player_land, (player_width,player_height))
     
     # Create List Of Images
     player_right = [
-        pygame.image.load("data/images/entities/player/run/0.png").convert_alpha(),
-        pygame.image.load("data/images/entities/player/run/1.png").convert_alpha(),
-        pygame.image.load("data/images/entities/player/run/2.png").convert_alpha(),
-        pygame.image.load("data/images/entities/player/run/3.png").convert_alpha(),
+        load_image("entities/player/run/0.png"),
+        load_image("entities/player/run/1.png"),
+        load_image("entities/player/run/2.png"),
+        load_image("entities/player/run/3.png"),
+        load_image("entities/player/run/4.png"),
+        load_image("entities/player/run/5.png"),
     ]
     
     
@@ -86,27 +130,62 @@ def main():
             if event.type == QUIT:
                 quit = True
 
+
+        # ******** Collisions ********
+            
+        standing_on = get_tile_properties(
+        tmxdata, x + (player_width / 2), y + player_height, world_offset
+        ) # bottom center player sprite
+        # print(standing_on)
+
         if keypressed[ord("a")]:
-            x = x - 10
-            direction = "left"
+            left_tile = get_tile_properties(
+                tmxdata,
+                x, # - LR_MOVMENT_OFFSET
+                y + (player_height / 2),
+                world_offset,
+            ) # center middle +10 on x
+            if left_tile["solid"] == 0:
+                x = x - 10
+                LAST_DIRECTION = direction = "left"
+                   
         if keypressed[ord("d")]:
-            x = x + 10
-            direction = "right"
+            right_tile = get_tile_properties(
+                tmxdata,
+                x + player_width, # - LR_MOVMENT_OFFSET
+                y + (player_height / 2),
+                world_offset,
+            ) # center middle +10 on x
+            if right_tile["solid"] == 0:
+                x = x + 10
+                LAST_DIRECTION = direction = "right"
         if keypressed[ord("w")]:
-            y = y_ground
-            player_jump_frame = 20
+            if standing_on["ground"] == 1:
+                player_jump_frame = 20
+            
         if keypressed[ord("s")]:
             pass
         if sum(keypressed) == 0: # No key is pressed
-            direction = "stand"
+            if direction != "stand":
+                direction = "stand"
 
 
         #******** Your game logic here **************
         if player_jump_frame > 0: # Jumping in progress
-            y = y - 10
-            direction = "jump"
-            player_jump_frame -=1 # 20 - 1
-        elif y < y_ground:
+            above_tile = get_tile_properties(
+                tmxdata,
+                x + player_width, # - LR_MOVMENT_OFFSET
+                y + (player_height / 2),
+                world_offset,
+            )
+            if above_tile["solid"] == 0:
+                y = y - 10
+                direction = "jump"
+                player_jump_frame -=1 # 20 - 1
+            else:
+                player_jump_frame = 0
+
+        elif standing_on["ground"] == 0:
             y = y + 10
             direction = "land"
         
@@ -160,7 +239,10 @@ def main():
         elif direction == "land":
             window.blit(player_land, (x,y))
         else:
-            window.blit(player_stand, (x,y))
+            if LAST_DIRECTION == "left":
+                window.blit(pygame.transform.flip(player_stand, True, False), (x,y))
+            else:
+                window.blit(player_stand, (x,y))
         
 
         #************** Update screen ****************
