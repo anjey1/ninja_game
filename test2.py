@@ -5,6 +5,8 @@ from pytmx.util_pygame import load_pygame
 BASE_IMG_PATH = "data/images/"
 PIXELS_IN_TILE = 32
 
+pygame.font.init()
+FONT = pygame.font.SysFont("Arial",18)
 
 def blit_all_tiles(window, tmxdata, world_offset):
     for layer in tmxdata:
@@ -71,7 +73,7 @@ def main():
     LAST_DIRECTION = ""
 
     tmxdata = load_pygame("map.tmx")
-    y_ground = window.get_height() - 134
+    y_ground = window.get_height() - 234
     player_width = 50
     player_height = 70
     quit = False
@@ -138,30 +140,34 @@ def main():
         ) # bottom center player sprite
         # print(standing_on)
 
+        # Monitor x Movment (Direction)
         if keypressed[ord("a")]:
             left_tile = get_tile_properties(
                 tmxdata,
                 x, # - LR_MOVMENT_OFFSET
-                y + (player_height / 2),
+                y + player_height - 16,
                 world_offset,
             ) # center middle +10 on x
+
             if left_tile["solid"] == 0:
-                x = x - 10
+                x = x - 30
                 LAST_DIRECTION = direction = "left"
                    
         if keypressed[ord("d")]:
             right_tile = get_tile_properties(
                 tmxdata,
                 x + player_width, # - LR_MOVMENT_OFFSET
-                y + (player_height / 2),
+                y + player_height - 16,
                 world_offset,
             ) # center middle +10 on x
+
             if right_tile["solid"] == 0:
-                x = x + 10
+                x = x + 30
                 LAST_DIRECTION = direction = "right"
+
         if keypressed[ord("w")]:
             if standing_on["ground"] == 1:
-                player_jump_frame = 20
+                player_jump_frame = 40
             
         if keypressed[ord("s")]:
             pass
@@ -189,42 +195,22 @@ def main():
             y = y + 10
             direction = "land"
         
-        # Keep Player within screen limits
-
-        # World Still
-        # if y < 0:
-        #     y = 0
-        # if y >= y_ground:
-        #     y = y_ground
-        # if x < 0:
-        #     x = 0
-        # if x >= window.get_width() - 50:
-        #     x = window.get_width() - 50
-
-        # World Moves
+        # World Moves - Handle world offset
         if y < 134:                 
             y = 134
             world_offset[1] += 10
-            print(y)
-            print(world_offset)
+
         if y > y_ground:       
             y = y_ground       
             world_offset[1] -= 10
-            print(y)
-            print(world_offset)
-
 
         if x < 140:
             x = 140
             world_offset[0] += 10
-            print(x)
-            print(world_offset)
 
         if x > window.get_width() - 140 - 50:
             x = window.get_width() - 140 - 50
             world_offset[0] -= 10
-            print(x)
-            print(world_offset)
         
         # Draw the player
 
@@ -234,16 +220,27 @@ def main():
         elif direction == "right":
             window.blit(player_right[player_right_frame], (x,y))
             player_right_frame = (player_right_frame + 1) % len(player_right)
+
         elif direction == "jump":
-            window.blit(player_jump, (x,y))
+            if LAST_DIRECTION == "left":
+                window.blit(pygame.transform.flip(player_jump, True, False), (x,y))
+            else:
+                window.blit(player_jump, (x,y))
+
         elif direction == "land":
-            window.blit(player_land, (x,y))
+            if LAST_DIRECTION == "left":
+                window.blit(pygame.transform.flip(player_land, True, False), (x,y))
+            else:
+                window.blit(player_land, (x,y))
+
         else:
             if LAST_DIRECTION == "left":
                 window.blit(pygame.transform.flip(player_stand, True, False), (x,y))
             else:
                 window.blit(player_stand, (x,y))
         
+        PLAYER_LOCATION = FONT.render(f"x, y: {x, y}", 1, (255,255,255))
+        window.blit(PLAYER_LOCATION, (50,50))
 
         #************** Update screen ****************
         pygame.display.update()                             # Actually does the screen update
