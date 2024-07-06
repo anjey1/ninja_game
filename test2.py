@@ -251,7 +251,7 @@ if __name__ == "__main__":
     width, height = 1200, 640
     pygame.init()
     # pygame.mixer.init()
-    pygame.display.set_caption("Jhonny B")
+    pygame.display.set_caption("Jhonny C")
     window = pygame.display.set_mode((width, height))
     clock = pygame.time.Clock()
     main()
