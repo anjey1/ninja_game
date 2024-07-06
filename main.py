@@ -1,6 +1,7 @@
 import pygame, time, random
 from pygame.locals import *
 from pytmx.util_pygame import load_pygame
+from utils import blit_all_tiles, load_image, get_tile_properties
 
 BASE_IMG_PATH = "data/images/"
 PIXELS_IN_TILE = 32
@@ -8,66 +9,6 @@ PIXELS_IN_TILE = 32
 pygame.font.init()
 FONT = pygame.font.SysFont("Arial",18)
 
-def blit_all_tiles(window, tmxdata, world_offset):
-    for layer in tmxdata:
-        try:
-            # layer['type'] != 'objectgroup': # and layer['name'] == 'Collision Layer':
-            if layer.id in [1,2]:
-                for tile in layer.tiles():
-                # tile[0] .... x grid location
-                # tile[1] .... y grid location
-                # tile[2] .... image data for blitting
-                    pixels_in_image = 32
-                    img = pygame.transform.scale(tile[2], (32,32))
-                    x_pixel = tile[0] * pixels_in_image + world_offset[0]
-                    y_pixel = tile[1] * pixels_in_image + world_offset[1]
-                    # draw the image according to world offset
-                    window.blit(img, (x_pixel,y_pixel))
-            # else:
-            #     for obj in layer:
-            #         col_rect = pygame.Rect(obj['x'], obj['y'], obj['width'], obj['height'])
-            #     collision_rects.append(col_rect)
-        except:
-            print('Warning !')
-            print(layer.tiles())
-
-def get_tile_properties(tmxdata, x, y, world_offset):
-    world_x = x - world_offset[0]
-    world_y = y - world_offset[1]
-    tile_x = world_x // PIXELS_IN_TILE # pixels in tile
-    tile_y = world_y // PIXELS_IN_TILE # pixels in tile
-
-    # *********** Handle tile properties**************
-    try:
-        properties = tmxdata.get_tile_properties(tile_x, tile_y, 0)
-    except ValueError:
-        # Fill in missing tiles with default values and kill on sight
-        properties = {
-        "climable": 0,
-        "ground": 0,
-        "health": -9999,
-        "points": 0,
-        "provides": "",
-        "requires": "",
-        "solid": 0,
-        }
-
-    if properties is None:
-        properties = {
-        "climable": 0,
-        "ground": 0,
-        "health": 0,
-        "points": 0,
-        "provides": "",
-        "requires": "",
-        "solid": 0,
-        }
-    return properties
-
-def load_image(path):
-    img = pygame.image.load(BASE_IMG_PATH + path).convert()
-    img.set_colorkey((0,0,0))
-    return img
 
 def main():
     LAST_DIRECTION = ""
