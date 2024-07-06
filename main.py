@@ -72,7 +72,7 @@ def load_image(path):
 def main():
     LAST_DIRECTION = ""
 
-    tmxdata = load_pygame("map.tmx")
+    tmxdata = load_pygame('data\maps\map.tmx')
     y_ground = window.get_height() - 234
     player_width = 50
     player_height = 70
