@@ -1,9 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="git" name="tileset" tilewidth="16" tileheight="16" tilecount="198" columns="18">
+<tileset version="1.10" tiledversion="1.11.0" name="tileset" tilewidth="16" tileheight="16" tilecount="198" columns="18">
  <editorsettings>
   <export target="tileset.tsx" format="tsx"/>
  </editorsettings>
- <image source="/home/andrei/VisualStudioProjects/pygame_platformer/ninja_game/data/images/tiles/tileset.png" width="288" height="176"/>
+ <image source="tileset.png" width="288" height="176"/>
+ <tile id="0">
+  <properties>
+   <property name="remove" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="1">
+  <properties>
+   <property name="remove" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="2">
+  <properties>
+   <property name="remove" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="3">
+  <properties>
+   <property name="remove" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="4">
+  <properties>
+   <property name="remove" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="5">
+  <properties>
+   <property name="remove" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="6">
+  <properties>
+   <property name="remove" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="7">
+  <properties>
+   <property name="remove" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="8">
+  <properties>
+   <property name="remove" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="9">
+  <properties>
+   <property name="remove" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="10">
+  <properties>
+   <property name="remove" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="11">
+  <properties>
+   <property name="remove" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="12">
+  <properties>
+   <property name="remove" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="13">
+  <properties>
+   <property name="remove" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="14">
+  <properties>
+   <property name="remove" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="15">
+  <properties>
+   <property name="remove" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="16">
+  <properties>
+   <property name="remove" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="17">
+  <properties>
+   <property name="remove" type="bool" value="false"/>
+  </properties>
+ </tile>
  <tile id="18">
   <properties>
    <property name="climable" type="int" value="0"/>
@@ -11,6 +101,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -22,6 +113,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -33,6 +125,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -44,6 +137,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -55,6 +149,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -66,6 +161,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -77,6 +173,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -88,6 +185,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -99,6 +197,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -110,6 +209,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -121,6 +221,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -132,6 +233,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -143,6 +245,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -154,6 +257,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -165,6 +269,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -176,6 +281,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -187,6 +293,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -198,6 +305,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -209,6 +317,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -220,6 +329,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -231,6 +341,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -242,6 +353,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -253,6 +365,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -264,6 +377,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -275,6 +389,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -286,6 +401,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -297,6 +413,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -308,6 +425,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -319,6 +437,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -330,6 +449,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -341,6 +461,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -352,6 +473,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -363,6 +485,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -374,6 +497,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -385,6 +509,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -396,6 +521,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -407,6 +533,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -418,6 +545,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -429,6 +557,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -440,6 +569,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -451,6 +581,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -462,6 +593,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -473,6 +605,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -484,6 +617,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -495,6 +629,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -506,6 +641,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -517,6 +653,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -528,6 +665,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -539,6 +677,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -550,6 +689,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -561,6 +701,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -572,6 +713,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -583,6 +725,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -594,6 +737,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -605,6 +749,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -614,8 +759,9 @@
    <property name="climable" type="int" value="0"/>
    <property name="ground" type="int" value="0"/>
    <property name="health" type="int" value="0"/>
-   <property name="points" type="int" value="0"/>
+   <property name="points" type="int" value="1"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="true"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -627,6 +773,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -638,6 +785,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -649,6 +797,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -660,6 +809,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -671,6 +821,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -682,6 +833,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -693,6 +845,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -704,6 +857,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -715,6 +869,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -726,6 +881,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -737,6 +893,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -748,6 +905,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -759,6 +917,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -770,6 +929,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -781,6 +941,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -792,6 +953,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -803,6 +965,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -814,6 +977,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -825,6 +989,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -836,6 +1001,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -844,9 +1010,10 @@
   <properties>
    <property name="climable" type="int" value="0"/>
    <property name="ground" type="int" value="0"/>
-   <property name="health" type="int" value="0"/>
+   <property name="health" type="int" value="-1"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -858,6 +1025,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -869,6 +1037,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -880,6 +1049,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -891,6 +1061,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -902,6 +1073,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -913,6 +1085,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -924,6 +1097,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -935,6 +1109,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -946,6 +1121,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -957,6 +1133,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -968,6 +1145,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -979,6 +1157,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -990,6 +1169,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1001,6 +1181,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1012,6 +1193,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1023,6 +1205,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1034,6 +1217,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1045,6 +1229,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1056,6 +1241,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1067,6 +1253,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1078,6 +1265,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1089,6 +1277,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1100,6 +1289,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1111,6 +1301,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1122,6 +1313,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1133,6 +1325,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1144,6 +1337,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1155,6 +1349,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1166,6 +1361,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1177,6 +1373,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1188,6 +1385,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1199,6 +1397,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1210,6 +1409,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1221,6 +1421,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1232,6 +1433,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1243,6 +1445,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1254,6 +1457,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1265,6 +1469,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1276,6 +1481,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1287,6 +1493,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1298,6 +1505,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1309,6 +1517,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1320,6 +1529,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1331,6 +1541,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1342,6 +1553,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1353,6 +1565,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1364,6 +1577,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1375,6 +1589,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1386,6 +1601,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1397,6 +1613,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1408,6 +1625,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1419,6 +1637,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1430,6 +1649,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1441,6 +1661,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1452,6 +1673,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1463,6 +1685,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1474,6 +1697,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1485,6 +1709,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1496,6 +1721,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1507,6 +1733,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1518,6 +1745,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1529,6 +1757,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1540,6 +1769,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1551,6 +1781,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1562,6 +1793,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1573,6 +1805,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1584,6 +1817,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1595,6 +1829,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1606,6 +1841,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1617,6 +1853,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1628,6 +1865,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1639,6 +1877,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1650,6 +1889,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1661,6 +1901,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1672,6 +1913,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1683,6 +1925,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1694,6 +1937,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1705,6 +1949,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1716,6 +1961,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1727,6 +1973,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1738,6 +1985,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1749,6 +1997,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1760,6 +2009,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1771,6 +2021,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1782,6 +2033,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1793,6 +2045,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1804,6 +2057,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1815,6 +2069,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1826,6 +2081,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1837,6 +2093,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1848,6 +2105,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1859,6 +2117,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1870,6 +2129,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1881,6 +2141,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1892,6 +2153,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="1"/>
   </properties>
@@ -1903,6 +2165,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1914,6 +2177,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1925,6 +2189,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1936,6 +2201,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1947,6 +2213,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1958,6 +2225,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1969,6 +2237,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
@@ -1980,6 +2249,7 @@
    <property name="health" type="int" value="0"/>
    <property name="points" type="int" value="0"/>
    <property name="provides" value=""/>
+   <property name="remove" type="bool" value="false"/>
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>

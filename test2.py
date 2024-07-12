@@ -1,134 +1,46 @@
 import pygame, time, random
 from pygame.locals import *
 from pytmx.util_pygame import load_pygame
-from scripts.utils import load_images
+from utils import load_images, blit_all_tiles, get_tile_properties
 
-BASE_IMG_PATH = "data/images/"
-PIXELS_IN_TILE = 32
 LR_MOVMENT_OFFSET = 15
-PLAYER_JUMP_HEIGHT = 25
+PLAYER_JUMP_HEIGHT = 23
 HEALTH = 100
 POINTS = 0
 
 pygame.font.init()
 FONT = pygame.font.SysFont("Arial", 18)
-POINTS_IMG = FONT.render(f"Points: {POINTS}", 1, (255, 255, 255))
-HEALTH_IMG = FONT.render(f"HEALTH: {HEALTH}", 1, (255, 255, 255))
-PLAYER_LOCATION = FONT.render(f"x,y: {HEALTH}", 1, (255, 255, 255))
-
-
-def blit_all_tiles(window, tmxdata, world_offset):
-    for layer in tmxdata:
-        try:
-            # layer['type'] != 'objectgroup': # and layer['name'] == 'Collision Layer':
-            if layer.id in [1, 2]:
-                for tile in layer.tiles():
-                    # tile[0] .... x grid location
-                    # tile[1] .... y grid location
-                    # tile[2] .... image data for blitting
-                    pixels_in_image = PIXELS_IN_TILE
-                    tile_img = pygame.transform.scale(
-                        tile[2], (PIXELS_IN_TILE, PIXELS_IN_TILE)
-                    )
-                    x_pixel = tile[0] * pixels_in_image + world_offset[0]
-                    y_pixel = tile[1] * pixels_in_image + world_offset[1]
-                    # draw the image according to world offset
-                    window.blit(tile_img, (x_pixel, y_pixel))
-            # else:
-            #     for obj in layer:
-            #         col_rect = pygame.Rect(obj['x'], obj['y'], obj['width'], obj['height'])
-            #     collision_rects.append(col_rect)
-        except:
-            print("Error getting tiles from layer !")
-
-
-def get_tile_properties(tmxdata, x, y, world_offset):
-    world_x = x - world_offset[0]
-    world_y = y - world_offset[1]
-    tile_x = world_x // PIXELS_IN_TILE  # pixels in tile
-    tile_y = world_y // PIXELS_IN_TILE  # pixels in tile
-
-    # *********** Handle tile properties**************
-    try:
-        properties = tmxdata.get_tile_properties(tile_x, tile_y, 0)
-    except ValueError:
-        # Fill in missing tiles with default values and kill on sight
-        properties = {
-            "climable": 0,
-            "ground": 0,
-            "health": -9999,
-            "points": 0,
-            "provides": "",
-            "requires": "",
-            "solid": 0,
-        }
-
-    if properties is None:
-        properties = {
-            "climable": 0,
-            "ground": 0,
-            "health": 0,
-            "points": 0,
-            "provides": "",
-            "requires": "",
-            "solid": 0,
-        }
-    return properties
-
-
-def load_image(path):
-    img = pygame.image.load(BASE_IMG_PATH + path).convert()
-    img.set_colorkey((0, 0, 0))
-    return img
 
 
 def main():
+    global HEALTH
+    global POINTS
 
     # Loading State
-    tmxdata = load_pygame("map2.tmx")
-    y_ground = window.get_height() - 118
+    tmxdata = load_pygame("map4.tmx")
+    y_ground = window.get_height() - 418
+
+    quit = False
+    x = 710
+    y = y_ground
     player_width = 40
     player_height = 56
-    quit = False
-    x = 400
-    y = y_ground
-
-    # Load a single image for standing still
-    player_stand = load_images("entities/player/idle")
-    player_stand = [
-        pygame.transform.scale(image, (player_width, player_height))
-        for image in player_stand
-    ]
+    health = HEALTH
+    points = POINTS
     player_stand_frame = 0
-
-    # Jumping
-    player_jump = load_image("entities/player/jump/0.png")
-    player_jump = pygame.transform.scale(player_jump, (player_width, player_height))
     player_jump_frame = 0
-    # Landing
-    player_land = load_image("entities/player/slide/0.png")
-    player_land = pygame.transform.scale(player_land, (player_width, player_height))
-    # Create List Of Images
-    player_right = load_images("entities/player/run")
-
-    # Resize all images in the list to 40*60
-    player_right = [
-        pygame.transform.scale(image, (player_width, player_height))
-        for image in player_right
-    ]
-
-    # Variable to remember which frame from the list we las displayed
     player_right_frame = 0
-
-    # Creating moving left images by flipping the right facing ones on the horizontal axis
-    player_left = [pygame.transform.flip(image, True, False) for image in player_right]
     player_left_frame = 0
 
-    # Looking Left
-    player_stand_left = [
-        pygame.transform.flip(image, True, False) for image in player_stand
-    ]
-    player_stand_left_frame = 0
+    assets = {
+        "player_stand": load_images("entities/player/idle"),
+        "player_jump": load_images("entities/player/jump"),
+        "player_land": load_images("entities/player/slide"),
+        "player_right": load_images("entities/player/run"),
+        "player_left": load_images("entities/player/run", True),
+    }
+
+    inventory = []
 
     # Maintain our direction
     direction = "stand"
@@ -137,13 +49,15 @@ def main():
 
     # *************** Start game loop ***************
     while not quit:
-        window.fill((176, 188, 209))
+        window.fill((33, 33, 33))
         blit_all_tiles(window, tmxdata, world_offset)
+        POINTS_IMG = FONT.render(f"Points: {points}", 1, (255, 255, 255))
+        HEALTH_IMG = FONT.render(f"HEALTH: {health}", 1, (255, 255, 255))
         window.blit(POINTS_IMG, (50, 10))
         window.blit(HEALTH_IMG, (50, 30))
 
         # ******* Proccess events **********
-        keypressed = pygame.key.get_pressed()
+
         for event in pygame.event.get():
             # print(event)  # Useful for debug
             if event.type == QUIT:
@@ -151,52 +65,106 @@ def main():
 
         # ******** Collisions ********
 
+        # bottom center player sprite
         standing_on = get_tile_properties(
             tmxdata, x + (player_width / 2), y + player_height, world_offset
-        )  # bottom center player sprite
-        # print(standing_on)
+        )
+
+        touching = get_tile_properties(
+            tmxdata, x + (player_width / 2), y + (player_height / 2), world_offset
+        )
+
+        health += touching["health"]
+        points += touching["points"]
+        # print(touching)
+
+        tile_x = int(touching["x"])
+        tile_y = int(touching["y"])
+
+        if health < 0:
+            quit = True
+
+        # if touching['id'] == 73:
+        if touching["remove"] == True:
+            tmxdata.layers[0].data[tile_y][tile_x] = 0
+
+        if touching["provides"] != '' and touching["provides"] != None:
+            inventory.append(touching["provides"])
+            print(f"got {touching["provides"]} !")
+            tmxdata.layers[0].data[tile_y][tile_x] = 0
+
+        if touching["requires"] != '' and touching["requires"] != None:
+            if touching["requires"] in inventory:
+                print(f"looking for {touching["requires"]} !")
+                if touching["requires"] == "key":
+                    print(f"used {touching["requires"]} !")
+                    inventory.remove(touching["requires"])
+                    tmxdata.layers[0].data[tile_y][tile_x] = tmxdata.layers[1].data[tile_y][tile_x]
+                    if tile_y == 16 and tile_x == 22: # 1st Door
+                        #  print(world_offset)
+                         world_offset[0] = world_offset[0] - 180 * 16 # move right 150 grids each 16
+                         world_offset[1] = world_offset[1] - 1 * 16 # move up 1 grids each 16
+                    elif tile_y == 17 and tile_x == 86: # 2st Door
+                        #  print(world_offset)
+                         world_offset[0] = world_offset[0] - 183 * 16 # move right 150 grids each 16
+                        #  world_offset[1] = world_offset[1] - 20 # move up 2 grids each 16
+                    elif tile_y == 5 and tile_x == 154: # 3st Door
+                        #  print(world_offset)
+                         world_offset[0] = world_offset[0] + 183 * 16 # move right 150 grids each 16
+                         world_offset[1] = world_offset[1] + 5 * 16 # move up 2 grids each 16
 
         # ******** Player events **************
+        keypressed = pygame.key.get_pressed()
+
         if keypressed[ord("a")]:
             left_tile = get_tile_properties(
                 tmxdata,
                 x,  # - LR_MOVMENT_OFFSET
-                y + (player_height / 2),
+                y + player_height - 16,
                 world_offset,
             )  # center middle +10 on x
             if left_tile["solid"] == 0:
                 x = x - LR_MOVMENT_OFFSET
                 direction = "left"
-                print(left_tile)
+                # print(left_tile)
+
         if keypressed[ord("d")]:
             right_tile = get_tile_properties(
                 tmxdata,
                 x + player_width,  # + LR_MOVMENT_OFFSET
-                y + (player_height / 2),
+                y + player_height - 16,
                 world_offset,
             )  # center middle +10 on x
             if right_tile["solid"] == 0:
                 x = x + LR_MOVMENT_OFFSET
                 direction = "right"
-                print(right_tile)
+                # print(right_tile)
 
         if keypressed[pygame.K_SPACE]:
+            if standing_on["climable"] == 1:
+                y = y - 10
             if standing_on["ground"] == 1:
                 player_jump_frame = PLAYER_JUMP_HEIGHT
 
         if keypressed[ord("s")]:
-            pass
+            if standing_on["climable"] == 1:
+                y = y + 10
 
         if sum(keypressed) == 0:  # No key is pressed
             if direction != "stand":
-                print(standing_on)
-            direction = "stand"
+                # print(standing_on)
+                # print(touching)
+                direction = "stand"
 
         # ******** Your game logic here **************
-        if player_jump_frame > 0:  # Jumping in progress
+
+        if player_jump_frame > 0:  # Jumping in progress after space pressed
+
+            # center middle +10 on x
             above_tile = get_tile_properties(
                 tmxdata, x + (player_width / 4), y + (player_height / 4), world_offset
-            )  # center middle +10 on x
+            )
+
             if above_tile["solid"] == 0:
                 y = y - 10
                 direction = "jump"
@@ -204,21 +172,13 @@ def main():
             else:
                 player_jump_frame = 0
 
-        elif standing_on["ground"] == 0:  # Landing/Falling in progress
+        elif (
+            standing_on["ground"] == 0 and standing_on["climable"] == 0
+        ):  # Landing/Falling in progress
             y = y + 10
             direction = "land"
 
-        # World Still # Keep Player within screen limits
-        # if y < 0:
-        #     y = 0
-        # if y >= y_ground:
-        #     y = y_ground
-        # if x < 0:
-        #     x = 0
-        # if x >= window.get_width() - 50:
-        #     x = window.get_width() - 50
-
-        # World Moves
+        # ******** World Offset logic **************
         if y < 134:
             y = 134
             world_offset[1] += 10
@@ -226,31 +186,33 @@ def main():
             y = y_ground
             world_offset[1] -= 10
 
-        if x < 140:
-            x = 140
+        if x < 340:
+            x = 340
             world_offset[0] += 10
         if x > window.get_width() - 155:
             x = window.get_width() - 155
             world_offset[0] -= 10
 
         # Draw the player
-        # print(f"x: {x} y: {y}")
+        # print(f'x: {x} y: {y}')
+
         if direction == "left":
-            window.blit(player_left[player_left_frame], (x, y))
-            player_left_frame = (player_left_frame + 1) % len(player_left)
+            window.blit(assets["player_left"][player_left_frame], (x, y))
+            player_left_frame = (player_left_frame + 1) % len(assets["player_left"])
         elif direction == "right":
-            window.blit(player_right[player_right_frame], (x, y))
-            player_right_frame = (player_right_frame + 1) % len(player_right)
+            window.blit(assets["player_right"][player_right_frame], (x, y))
+            player_right_frame = (player_right_frame + 1) % len(assets["player_right"])
         elif direction == "jump":
-            window.blit(player_jump, (x, y))
+            window.blit(assets["player_jump"][0], (x, y))
         elif direction == "land":
-            window.blit(player_land, (x, y))
+            window.blit(assets["player_land"][0], (x, y))
         else:
-            window.blit(player_stand[player_stand_frame], (x, y))
-            player_stand_frame = (player_stand_frame + 1) % len(player_stand)
+            window.blit(assets["player_stand"][player_stand_frame], (x, y))
+            player_stand_frame = (player_stand_frame + 1) % len(assets["player_stand"])
 
         PLAYER_LOCATION = FONT.render(f"x,y: {x, y}", 1, (255, 255, 255))
         window.blit(PLAYER_LOCATION, (50, 50))
+
         # ************** Update screen ****************
         pygame.display.update()  # Actually does the screen update
         clock.tick(30)  # Run at 30 frames per second
