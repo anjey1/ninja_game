@@ -12,9 +12,7 @@ class Game:
 
         pygame.display.set_caption('pirate game')
         self.screen = pygame.display.set_mode((640, 480))
-
         self.display = pygame.Surface((320, 240))
-
         self.clock = pygame.time.Clock()
 
         self.movement = [False, False]
@@ -35,11 +33,8 @@ class Game:
         }
 
         self.clouds = Clouds(self.assets['clouds'], count=20)
-
         self.player = Player(self, (50,50), (8,15))
-
         self.tilemap = Tilemap(self, tile_size=16)
-
         self.scroll = [0, 0]
         
     def run(self):
