@@ -51,42 +51,98 @@
  </tile>
  <tile id="9">
   <properties>
+   <property name="climable" type="int" value="0"/>
+   <property name="ground" type="int" value="0"/>
+   <property name="health" type="int" value="0"/>
+   <property name="points" type="int" value="0"/>
+   <property name="provides" value=""/>
    <property name="remove" type="bool" value="false"/>
+   <property name="requires" value=""/>
+   <property name="solid" type="int" value="0"/>
   </properties>
  </tile>
  <tile id="10">
   <properties>
+   <property name="climable" type="int" value="0"/>
+   <property name="ground" type="int" value="0"/>
+   <property name="health" type="int" value="0"/>
+   <property name="points" type="int" value="0"/>
+   <property name="provides" value=""/>
    <property name="remove" type="bool" value="false"/>
+   <property name="requires" value=""/>
+   <property name="solid" type="int" value="0"/>
   </properties>
  </tile>
  <tile id="11">
   <properties>
+   <property name="climable" type="int" value="0"/>
+   <property name="ground" type="int" value="0"/>
+   <property name="health" type="int" value="0"/>
+   <property name="points" type="int" value="0"/>
+   <property name="provides" value=""/>
    <property name="remove" type="bool" value="false"/>
+   <property name="requires" value=""/>
+   <property name="solid" type="int" value="0"/>
   </properties>
  </tile>
  <tile id="12">
   <properties>
+   <property name="climable" type="int" value="0"/>
+   <property name="ground" type="int" value="0"/>
+   <property name="health" type="int" value="0"/>
+   <property name="points" type="int" value="0"/>
+   <property name="provides" value=""/>
    <property name="remove" type="bool" value="false"/>
+   <property name="requires" value=""/>
+   <property name="solid" type="int" value="0"/>
   </properties>
  </tile>
  <tile id="13">
   <properties>
+   <property name="climable" type="int" value="0"/>
+   <property name="ground" type="int" value="0"/>
+   <property name="health" type="int" value="0"/>
+   <property name="points" type="int" value="0"/>
+   <property name="provides" value=""/>
    <property name="remove" type="bool" value="false"/>
+   <property name="requires" value=""/>
+   <property name="solid" type="int" value="0"/>
   </properties>
  </tile>
  <tile id="14">
   <properties>
+   <property name="climable" type="int" value="0"/>
+   <property name="ground" type="int" value="0"/>
+   <property name="health" type="int" value="0"/>
+   <property name="points" type="int" value="0"/>
+   <property name="provides" value=""/>
    <property name="remove" type="bool" value="false"/>
+   <property name="requires" value=""/>
+   <property name="solid" type="int" value="0"/>
   </properties>
  </tile>
  <tile id="15">
   <properties>
+   <property name="climable" type="int" value="0"/>
+   <property name="ground" type="int" value="0"/>
+   <property name="health" type="int" value="0"/>
+   <property name="points" type="int" value="0"/>
+   <property name="provides" value=""/>
    <property name="remove" type="bool" value="false"/>
+   <property name="requires" value=""/>
+   <property name="solid" type="int" value="0"/>
   </properties>
  </tile>
  <tile id="16">
   <properties>
+   <property name="climable" type="int" value="0"/>
+   <property name="ground" type="int" value="0"/>
+   <property name="health" type="int" value="0"/>
+   <property name="points" type="int" value="0"/>
+   <property name="provides" value=""/>
    <property name="remove" type="bool" value="false"/>
+   <property name="requires" value=""/>
+   <property name="solid" type="int" value="0"/>
   </properties>
  </tile>
  <tile id="17">
@@ -105,6 +161,12 @@
    <property name="requires" value=""/>
    <property name="solid" type="int" value="0"/>
   </properties>
+  <animation>
+   <frame tileid="72" duration="500"/>
+   <frame tileid="135" duration="700"/>
+   <frame tileid="153" duration="900"/>
+   <frame tileid="73" duration="2000"/>
+  </animation>
  </tile>
  <tile id="19">
   <properties>

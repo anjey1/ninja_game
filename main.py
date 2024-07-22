@@ -1,8 +1,8 @@
 import pygame, time, random
 from pygame.locals import *
 from pytmx.util_pygame import load_pygame
-from entities import PhysicsEntity
-from utils import load_images, blit_all_tiles, get_tile_properties
+from entities import PhysicsEntity, Animate
+from utils import blit_all_tiles, update_animations
 
 LR_MOVMENT_OFFSET = 15
 PLAYER_JUMP_HEIGHT = 23
@@ -21,15 +21,22 @@ class Game:
         pygame.display.set_caption("Jhonny B")
         self.window = pygame.display.set_mode((width, height))
         self.clock = pygame.time.Clock()
-
+        self.animations = {}
         self.player = PhysicsEntity(self)
+
+        # self.player2 = PhysicsEntity(self, 540, 250, True)
+
+        self.elapsed_time = (
+            pygame.time.get_ticks()
+        )  # in charge of moving background aminations
 
     def main(self):
         global HEALTH
         global POINTS
 
         # Loading State
-        tmxdata = load_pygame("map4.tmx")
+        tmxdata = load_pygame("map5.tmx")
+
         y_ground = self.window.get_height() - 418
 
         quit = False
@@ -41,8 +48,9 @@ class Game:
 
         # *************** Start game loop ***************
         while not quit:
+            self.elapsed_time = pygame.time.get_ticks()
             self.window.fill((33, 33, 33))
-            blit_all_tiles(self.window, tmxdata, self.world_offset)
+            blit_all_tiles(self, self.window, tmxdata, self.world_offset)
 
             POINTS_IMG = FONT.render(
                 f"Points: {self.player.points}", 1, (255, 255, 255)
@@ -84,6 +92,9 @@ class Game:
             # self.player.render(self.display,  offset=render_scroll)
 
             self.player.update(tmxdata, self.window)
+            update_animations(self, self.window, self.world_offset)
+
+            # self.player2.update(tmxdata, self.window)
             # self.player.render(self.window, direction)
 
             # ************** Update screen ****************

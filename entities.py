@@ -1,17 +1,58 @@
 import pygame
-from utils import load_images, blit_all_tiles, get_tile_properties
+from utils import load_images, PIXELS_IN_TILE, get_tile_properties
+
+
+class Animate:
+    def __init__(self, tmxdata, x=750, y=222, tile_x = 21, tile_y = 16):
+        self.x = x
+        self.y = y   #640 - 418
+        self.tile_x = tile_x
+        self.tile_y = tile_y
+        self.last_update = pygame.time.get_ticks()
+
+        tile_props = tmxdata.get_tile_properties(tile_x, tile_y, 0)
+
+        self.frames = [
+             {
+              'img':pygame.transform.scale(tmxdata.get_tile_image_by_gid(tile.gid),(PIXELS_IN_TILE,PIXELS_IN_TILE)) ,
+              'duration': tile.duration,
+              'index': index 
+             }
+             for index, tile in enumerate(tile_props['frames'])
+        ] 
+        
+        self.frame = self.frames[0]
+
+        self.assets = {
+            "frames": self.frames, # load animated tiles here...
+        }
+
+    def update(self, window, world_offset):
+        now = pygame.time.get_ticks()
+        if now - self.last_update > self.frame['duration']:
+            self.last_update = pygame.time.get_ticks()
+            self.frame = self.frames[(self.frame['index'] + 1) % len(self.assets["frames"])]
+
+        self.x = self.tile_x * PIXELS_IN_TILE + world_offset[0]
+        self.y = self.tile_y * PIXELS_IN_TILE + world_offset[1]
+        self.render(window)
+
+    def render(self, window):
+        window.blit(self.frame['img'], (self.x, self.y))
+        
 
 class PhysicsEntity:
 
-    def __init__(self,game):
-        self.x = 710
-        self.y = 222   #640 - 418
+    def __init__(self, game, x=710, y=222, debug=False):
+        self.x = x
+        self.y = y   #640 - 418
         self.width = 40
         self.height = 56
         self.inventory = []
         self.points = 0
         self.direction = "stand"
         self.player_jump_frame = 0
+        self.debug = debug
 
         self.assets = {
             "player_stand": load_images("entities/player/idle"),
@@ -58,56 +99,62 @@ class PhysicsEntity:
         # ******** Collisions ********
 
         # bottom center player sprite
-        standing_on = get_tile_properties(
-            tmxdata, self.x + (self.width / 2), self.y + self.height, self.game.world_offset
-        )
+        try:
+            standing_on = get_tile_properties(
+                tmxdata, self.x + int(self.width / 2), self.y + self.height, self.game.world_offset
+            )
+        except Exception as e:
+            print(e)                    
 
+        
         # middle center player sprite
         touching = get_tile_properties(
-            tmxdata, self.x + (self.width / 2), self.y + (self.height / 2), self.game.world_offset
+            tmxdata, self.x + int(self.width / 2), self.y + int(self.height / 2), self.game.world_offset
         )
+        
+        try:            
+            self.game.health += touching["health"]
+            self.points += touching["points"]
+            # print(touching)
 
-        self.game.health += touching["health"]
-        self.points += touching["points"]
-        # print(touching)
+            tile_x = int(touching["x"])
+            tile_y = int(touching["y"])
 
-        tile_x = int(touching["x"])
-        tile_y = int(touching["y"])
+            if self.game.health < 0:
+                quit = True
 
-        if self.game.health < 0:
-            quit = True
+            # if touching['id'] == 73:
+            if touching["remove"] == True:
+                tmxdata.layers[0].data[tile_y][tile_x] = 0
 
-        # if touching['id'] == 73:
-        if touching["remove"] == True:
-            tmxdata.layers[0].data[tile_y][tile_x] = 0
+            if touching["provides"] != '' and touching["provides"] != None:
+                self.inventory.append(touching["provides"])
+                print(f"got {touching["provides"]} !")
+                tmxdata.layers[0].data[tile_y][tile_x] = 0
 
-        if touching["provides"] != '' and touching["provides"] != None:
-            self.inventory.append(touching["provides"])
-            print(f"got {touching["provides"]} !")
-            tmxdata.layers[0].data[tile_y][tile_x] = 0
-
-        if touching["requires"] != '' and touching["requires"] != None:
-            if touching["requires"] in self.inventory:
-                print(f"looking for {touching["requires"]} !")
-                if touching["requires"] == "key":
-                    print(f"used {touching["requires"]} !")
-                    self.inventory.remove(touching["requires"])
-                    tmxdata.layers[0].data[tile_y][tile_x] = tmxdata.layers[1].data[tile_y][tile_x]
-                    if tile_y == 16 and tile_x == 22: # 1st Door
-                        #  print(world_offset)
-                         self.game.world_offset[0] = self.game.world_offset[0] - 180 * 16 # move right 150 grids each 16
-                         self.game.world_offset[1] = self.game.world_offset[1] - 1 * 16 # move up 1 grids each 16
-                    elif tile_y == 17 and tile_x == 86: # 2st Door
-                        #  print(self.game.world_offset)
-                         self.game.world_offset[0] = self.game.world_offset[0] - 183 * 16 # move right 150 grids each 16
-                        #  self.game.world_offset[1] = self.game.world_offset[1] - 20 # move up 2 grids each 16
-                    elif tile_y == 5 and tile_x == 154: # 3st Door
-                        #  print(self.game.world_offset)
-                         self.game.world_offset[0] = self.game.world_offset[0] + 183 * 16 # move right 150 grids each 16
-                         self.game.world_offset[1] = self.game.world_offset[1] + 5 * 16 # move up 2 grids each 16
+            if touching["requires"] != '' and touching["requires"] != None:
+                if touching["requires"] in self.inventory:
+                    print(f"looking for {touching["requires"]} !")
+                    if touching["requires"] == "key":
+                        print(f"used {touching["requires"]} !")
+                        self.inventory.remove(touching["requires"])
+                        tmxdata.layers[0].data[tile_y][tile_x] = tmxdata.layers[1].data[tile_y][tile_x]
+                        if tile_y == 16 and tile_x == 22: # 1st Door
+                            #  print(world_offset)
+                            self.game.world_offset[0] = self.game.world_offset[0] - 180 * 16 # move right 150 grids each 16
+                            self.game.world_offset[1] = self.game.world_offset[1] - 1 * 16 # move up 1 grids each 16
+                        elif tile_y == 17 and tile_x == 86: # 2st Door
+                            #  print(self.game.world_offset)
+                            self.game.world_offset[0] = self.game.world_offset[0] - 183 * 16 # move right 150 grids each 16
+                            #  self.game.world_offset[1] = self.game.world_offset[1] - 20 # move up 2 grids each 16
+                        elif tile_y == 5 and tile_x == 154: # 3st Door
+                            #  print(self.game.world_offset)
+                            self.game.world_offset[0] = self.game.world_offset[0] + 183 * 16 # move right 150 grids each 16
+                            self.game.world_offset[1] = self.game.world_offset[1] + 5 * 16 # move up 2 grids each 16
+        except KeyError:
+            print(touching)
         
         
-
         # ******** Player events **************
         keypressed = pygame.key.get_pressed()
         # print(keypressed)
@@ -135,15 +182,18 @@ class PhysicsEntity:
                 self.direction = "right"
                 # print(right_tile)
 
-        if keypressed[pygame.K_SPACE]:
-            if standing_on["climable"] == 1:
-                self.y = self.y - 10
-            if standing_on["ground"] == 1:
-                self.player_jump_frame = self.PLAYER_JUMP_HEIGHT
+        try:
+            if keypressed[pygame.K_SPACE]:
+                if standing_on["climable"] == 1:
+                    self.y = self.y - 10
+                if standing_on["ground"] == 1:
+                    self.player_jump_frame = self.PLAYER_JUMP_HEIGHT
 
-        if keypressed[ord("s")]:
-            if standing_on["climable"] == 1:
-                self.y = self.y + 10
+            if keypressed[ord("s")]:
+                if standing_on["climable"] == 1:
+                    self.y = self.y + 10
+        except KeyError:
+            print(standing_on)    
 
         if sum(keypressed) == 0:  # No key is pressed
             if self.direction != "stand":
@@ -153,7 +203,7 @@ class PhysicsEntity:
         
         
 
-                # ******** Your game logic here **************
+        # ******** Your game logic here **************
 
         if self.player_jump_frame > 0:  # Jumping in progress after space pressed
 
@@ -161,20 +211,23 @@ class PhysicsEntity:
             above_tile = get_tile_properties(
                 tmxdata, self.x + (self.width / 4), self.y + (self.height / 4), self.game.world_offset
             )
-
-            if above_tile["solid"] == 0:
-                self.y = self.y - 10
-                self.direction = "jump"
-                self.player_jump_frame -= 1
-            else:
-                self.player_jump_frame = 0
-
-        elif (
-            standing_on["ground"] == 0 and standing_on["climable"] == 0
-        ):  # Landing/Falling in progress
-            self.y = self.y + 10
-            self.direction = "land"
-
+            try:
+                if above_tile["solid"] == 0:
+                    self.y = self.y - 10
+                    self.direction = "jump"
+                    self.player_jump_frame -= 1
+                else:
+                    self.player_jump_frame = 0
+            except KeyError:
+                print(above_tile)
+        else:
+            try: 
+                if standing_on["ground"] == 0 and standing_on["climable"] == 0:  # Landing/Falling in progress
+                    self.y = self.y + 10
+                    self.direction = "land"
+            except KeyError:
+                print(standing_on)
+    
         self.render(window, self.direction)
         pass
 
@@ -192,7 +245,7 @@ class PhysicsEntity:
 
         # Draw the player
         # print(f'x: {x} y: {y}')
-        print(direction)
+        # print(direction)
         if direction == "left":
             window.blit(self.assets["player_left"][self.player_left_frame], (self.x, self.y))
             self.player_left_frame = (self.player_left_frame + 1) % len(self.assets["player_left"])
