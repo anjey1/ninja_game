@@ -11,7 +11,7 @@ pygame.font.init()
 FONT = pygame.font.SysFont("Arial",18)
 
 class Game:
-    def __init__(self):
+    def __init__(self): # Constructor
         #*************** Initialize & run the game **************
         pygame.init()
         # pygame.mixer.init()
@@ -30,7 +30,7 @@ class Game:
         self.world_offset = [0,0]
 
         self.player = Entity(self)
-        self.player2 = Entity(self,600)
+        # self.player2 = Entity(self,600)
 
     def main(self):
         
@@ -45,7 +45,7 @@ class Game:
 
         #*************** Start game loop ***************
         while not quit:
-            self.window.fill((164,164,164))
+            self.window.fill((3,194,252))
             blit_all_tiles(self.window, tmxdata, self.world_offset)
 
             PLAYER_LOCATION = FONT.render(f"x, y: {self.player.x, self.player.y}", 1, (255,255,255))
@@ -59,7 +59,7 @@ class Game:
                     quit = True
             
             # World Moves - Handle world offset
-            print(f"{self.player.y,self.player.x}")
+            # print(f"{self.player.y,self.player.x}")
             if self.player.y < 134:                 
                 self.player.y = 134
                 self.world_offset[1] += 10
@@ -68,12 +68,12 @@ class Game:
                 self.player.y = self.y_ground       
                 self.world_offset[1] -= 10
 
-            if self.player.x < 140:
-                self.player.x = 140
+            if self.player.x < 340:
+                self.player.x = 340
                 self.world_offset[0] += 10
 
-            if self.player.x > self.window.get_width() - 140 - 50:
-                self.player.x = self.window.get_width() - 140 - 50
+            if self.player.x > self.window.get_width() - 340 - 50:
+                self.player.x = self.window.get_width() - 340 - 50
                 self.world_offset[0] -= 10
             
         
@@ -82,11 +82,11 @@ class Game:
             self.player.update(tmxdata, self.window)
             self.player.render(tmxdata, self.window)
 
-            self.player2.update(tmxdata, self.window)
-            self.player2.render(tmxdata, self.window)
+            # self.player2.update(tmxdata, self.window)
+            # self.player2.render(tmxdata, self.window)
 
-            pygame.display.update()                             # Actually does the screen update
-            self.clock.tick(30)                                      # Run at 30 frames per second
+            pygame.display.update()         # Actually does the screen update
+            self.clock.tick(30)             # Run at 30 frames per second
 
 
 Game().main()

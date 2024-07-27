@@ -1,5 +1,6 @@
 import pygame
-from utils import get_tile_properties, load_image
+from pygame.image import load
+from utils import get_tile_properties, load_image, load_images
 
 class Entity:
     def __init__(self,game, x=400, y=200):
@@ -8,40 +9,20 @@ class Entity:
         self.x=x
         self.y=y
         self.game = game
-        
-        # Load a single image for standing still
-        self.player_stand = load_image("entities/player/idle/00.png")
-        self.player_stand = pygame.transform.scale(self.player_stand, (self.player_width,self.player_height))
-        
-        # Jumping
-        self.player_jump =  load_image("entities/player/jump/0.png")
-        self.player_jump = pygame.transform.scale(self.player_jump, (self.player_width,self.player_height))
-        self.player_jump_frame = 0
-        
-        # Landing
-        self.player_land = load_image("entities/player/slide/0.png")
-        self.player_land = pygame.transform.scale(self.player_land, (self.player_width,self.player_height))
-        
-        # Create List Of Images
-        self.player_right = [
-            load_image("entities/player/run/0.png"),
-            load_image("entities/player/run/1.png"),
-            load_image("entities/player/run/2.png"),
-            load_image("entities/player/run/3.png"),
-            load_image("entities/player/run/4.png"),
-            load_image("entities/player/run/5.png"),
-        ]
-        
-        
-        # Resize all images in the list to 50*70
-        self.player_right = [ pygame.transform.scale(image, (self.player_width,self.player_height)) for image in self.player_right]
 
-        # Variable to remember which frame from the list we las displayed
+        self.assets = {
+            "player_stand": load_images("entities/player/idle"),
+            "player_jump": load_images("entities/player/jump"),
+            "player_land": load_images("entities/player/slide"),
+            "player_right": load_images("entities/player/run"),
+            "player_left": load_images("entities/player/run", True)
+        }
+
+        self.player_stand_frame = 0
         self.player_right_frame = 0
-
-        # Creating moving left images by flipping the right facing ones on the horizontal axis
-        self.player_left = [pygame.transform.flip(image, True, False) for image in self.player_right]
         self.player_left_frame = 0
+        self.player_jump_frame = 0
+
 
         self.LAST_DIRECTION = ""
 
@@ -115,29 +96,34 @@ class Entity:
     def render(self, tmxdata, window):
          # Draw the player
             if self.direction == "left":
-                window.blit(self.player_left[self.player_left_frame], (self.x,self.y))
-                self.player_left_frame = (self.player_left_frame + 1) % len(self.player_left)
-            elif self.direction == "right":
-                window.blit(self.player_right[self.player_right_frame], (self.x,self.y))
-                self.player_right_frame = (self.player_right_frame + 1) % len(self.player_right)
+                window.blit(self.assets["player_left"][self.player_left_frame], (self.x,self.y))
+                self.player_left_frame = (self.player_left_frame + 1) % len(self.assets["player_left"])
 
+            elif self.direction == "right":
+                window.blit(self.assets["player_right"][self.player_right_frame], (self.x,self.y))
+                self.player_right_frame = (self.player_right_frame + 1) % len(self.assets["player_right"])
+                
             elif self.direction == "jump":
                 if self.LAST_DIRECTION == "left":
-                    window.blit(pygame.transform.flip(self.player_jump, True, False), (self.x,self.y))
+                    window.blit(pygame.transform.flip(self.assets["player_jump"][0], True, False), (self.x,self.y))
                 else:
-                    window.blit(self.player_jump, (self.x,self.y))
+                    window.blit(self.assets["player_jump"][0], (self.x,self.y))
 
             elif self.direction == "land":
                 if self.LAST_DIRECTION == "left":
-                    window.blit(pygame.transform.flip(self.player_land, True, False), (self.x,self.y))
+                    window.blit(pygame.transform.flip(self.assets["player_land"][0], True, False), (self.x,self.y))
                 else:
-                    window.blit(self.player_land, (self.x,self.y))
+                    window.blit(self.assets["player_land"][0], (self.x,self.y))
 
-            else:
+
+            else: #stand
                 if self.LAST_DIRECTION == "left":
-                    window.blit(pygame.transform.flip(self.player_stand, True, False), (self.x,self.y))
+                    window.blit(pygame.transform.flip(self.assets["player_stand"][self.player_stand_frame], True, False), (self.x,self.y))
+                    self.player_stand_frame = (self.player_stand_frame + 1) % len(self.assets["player_stand"])
                 else:
-                    window.blit(self.player_stand, (self.x,self.y))
+                    window.blit(self.assets["player_stand"][self.player_stand_frame], (self.x,self.y))
+                    self.player_stand_frame = (self.player_stand_frame + 1) % len(self.assets["player_stand"])
+
 
 
 
