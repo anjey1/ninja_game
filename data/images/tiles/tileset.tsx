@@ -165,7 +165,7 @@
    <frame tileid="72" duration="500"/>
    <frame tileid="135" duration="700"/>
    <frame tileid="153" duration="900"/>
-   <frame tileid="73" duration="2000"/>
+   <frame tileid="73" duration="1500"/>
   </animation>
  </tile>
  <tile id="19">

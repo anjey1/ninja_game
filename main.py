@@ -2,7 +2,8 @@ import pygame, time, random
 from pygame.locals import *
 from pytmx.util_pygame import load_pygame
 from entities import PhysicsEntity, Animate
-from utils import blit_all_tiles, update_animations
+from utils import blit_all_tiles, update_animations, load_images, update_enemies
+from scripts.clouds import Clouds
 
 LR_MOVMENT_OFFSET = 15
 PLAYER_JUMP_HEIGHT = 23
@@ -16,14 +17,16 @@ FONT = pygame.font.SysFont("Arial", 18)
 class Game:
     def __init__(self):
         pygame.init()
-        width, height = 1200, 640
+        width, height = 1920, 1080
         # pygame.mixer.init()
         pygame.display.set_caption("Jhonny B")
         self.window = pygame.display.set_mode((width, height))
         self.clock = pygame.time.Clock()
         self.animations = {}
+        self.enemies = {}
         self.player = PhysicsEntity(self)
 
+        self.clouds = Clouds(load_images("clouds", False, 300, 200), 9)
         # self.player2 = PhysicsEntity(self, 540, 250, True)
 
         self.elapsed_time = (
@@ -49,7 +52,15 @@ class Game:
         # *************** Start game loop ***************
         while not quit:
             self.elapsed_time = pygame.time.get_ticks()
-            self.window.fill((33, 33, 33))
+            # self.window.fill((33, 33, 33))
+            self.window.fill((3, 194, 252))
+
+            self.clouds.update()
+            self.clouds.render(
+                self.window,
+                # offset=(self.world_offset[0], self.world_offset[1]),
+            )
+
             blit_all_tiles(self, self.window, tmxdata, self.world_offset)
 
             POINTS_IMG = FONT.render(
@@ -75,12 +86,12 @@ class Game:
                 self.player.y = y_ground
                 self.world_offset[1] -= 10
 
-            if self.player.x < 340:
-                self.player.x = 340
+            if self.player.x < 640:
+                self.player.x = 640
                 self.world_offset[0] += 10
 
-            if self.player.x > self.window.get_width() - 155:
-                self.player.x = self.window.get_width() - 155
+            if self.player.x > self.window.get_width() - 640:
+                self.player.x = self.window.get_width() - 640
                 self.world_offset[0] -= 10
 
             PLAYER_LOCATION = FONT.render(
@@ -91,12 +102,13 @@ class Game:
             # self.player.update(self.tilemap,(self.movement[1] - self.movement[0],0))
             # self.player.render(self.display,  offset=render_scroll)
 
-            self.player.update(tmxdata, self.window)
             update_animations(self, self.window, self.world_offset)
+            update_enemies(self, self.window, self.world_offset)
 
             # self.player2.update(tmxdata, self.window)
             # self.player.render(self.window, direction)
 
+            self.player.update(tmxdata, self.window)
             # ************** Update screen ****************
             pygame.display.update()  # Actually does the screen update
             self.clock.tick(30)  # Run at 30 frames per second

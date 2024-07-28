@@ -2,6 +2,47 @@ import pygame
 from utils import load_images, PIXELS_IN_TILE, get_tile_properties
 
 
+
+
+class Enemy():
+    def __init__(self, x=710, y=222,  tile_x = 21, tile_y = 16, debug=False):
+        self.x = x
+        self.y = y   #640 - 418
+        self.tile_x = tile_x
+        self.tile_y = tile_y
+        self.last_update = pygame.time.get_ticks()
+
+        self.assets = {
+            "enemy_stand": load_images("entities/enemy/idle"),
+            "enemy_right": load_images("entities/enemy/run"),
+            "enemy_left": load_images("entities/enemy/run", True),
+        }
+
+        self.enemy_left_frame = 0
+        self.enemy_right_frame = 0
+        self.enemy_stand_frame = 0 
+
+    def update(self, window, world_offset=(0,0)):
+        # self.x = self.x + 3
+        self.x = self.tile_x  + world_offset[0] 
+        self.y = self.tile_y  + world_offset[1] + 300
+        self.render(window, 'none')
+
+    def render(self, window, direction='none'):
+
+        if direction == "left":
+            window.blit(self.assets["enemy_left"][self.enemy_left_frame], (self.x, self.y))
+            self.enemy_left_frame = (self.enemy_left_frame + 1) % len(self.assets["enemy_left"])
+        elif direction == "right":
+            window.blit(self.assets["enemy_right"][self.enemy_right_frame], (self.x, self.y))
+            self.enemy_right_frame = (self.enemy_right_frame + 1) % len(self.assets["enemy_right"])
+        else:
+            window.blit(self.assets["enemy_stand"][self.enemy_stand_frame], (self.x, self.y))
+            print(f'enemy rendered at {self.x,self.y}')
+            self.enemy_stand_frame = (self.enemy_stand_frame + 1) % len(self.assets["enemy_stand"])
+
+
+
 class Animate:
     def __init__(self, tmxdata, x=750, y=222, tile_x = 21, tile_y = 16):
         self.x = x
@@ -21,6 +62,7 @@ class Animate:
              for index, tile in enumerate(tile_props['frames'])
         ] 
         
+        # Init
         self.frame = self.frames[0]
 
         self.assets = {
@@ -89,10 +131,10 @@ class PhysicsEntity:
     #         self.size[1],
     #         )
 
-    def set_action(self, action):
-        if action != self.action:
-            self.action = action
-            self.animation = self.game.assets[self.type + '/' + self.action].copy()
+    # def set_action(self, action):
+    #     if action != self.action:
+    #         self.action = action
+    #         self.animation = self.game.assets[self.type + '/' + self.action].copy()
 
     def update(self, tmxdata, window):
 
@@ -261,11 +303,4 @@ class PhysicsEntity:
             self.player_stand_frame = (self.player_stand_frame + 1) % len(self.assets["player_stand"])
 
 
-class Player(PhysicsEntity):
-    def __init__(self, game):
-        super().__init__(game)
-
-    def update(self):
-        super().update()
-        
 

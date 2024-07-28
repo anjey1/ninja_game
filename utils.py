@@ -13,7 +13,7 @@ def load_image(path):
     return img
 
 
-def load_images(path, flip=False):
+def load_images(path, flip=False, img_width=player_width, img_height=player_height):
     images = []
     img_array = os.listdir(BASE_IMG_PATH + path)
     img_array.sort()
@@ -21,7 +21,7 @@ def load_images(path, flip=False):
         images.append(load_image(path + "/" + img_name))
 
     images = [
-        pygame.transform.scale(image, (player_width, player_height)) for image in images
+        pygame.transform.scale(image, (img_width, img_height)) for image in images
     ]
 
     if flip:
@@ -51,7 +51,7 @@ def blit_all_tiles(game, window, tmxdata, world_offset):
     for layer in tmxdata:
         try:
             # layer['type'] != 'objectgroup': # and layer['name'] == 'Collision Layer':
-            if layer.id in [1]:  # dont paint shadow
+            if hasattr(layer, "data"):  # dont paint shadow
                 for index, tile in enumerate(layer.tiles()):
                     # tile[0] .... x grid location
                     # tile[1] .... y grid location
@@ -88,10 +88,33 @@ def blit_all_tiles(game, window, tmxdata, world_offset):
 
                         # draw the image according to world offset
                         window.blit(tile_img, (x_pixel, y_pixel))
-            # else:
-            #     for obj in layer:
-            #         col_rect = pygame.Rect(obj['x'], obj['y'], obj['width'], obj['height'])
-            #     collision_rects.append(col_rect)
+            else:
+                if layer.name == "Enemy":
+
+                    # Add enemy object
+                    if (layer.x, layer.y) not in game.enemies:
+                        from entities import Enemy
+
+                        game.enemies[(layer.x, layer.y)] = Enemy(
+                            x=layer.x, y=layer.y, tile_x=layer.x, tile_y=layer.y
+                        )
+                        print(f"enemy {tile[0]},{tile[1]}, added")
+                    else:
+                        # game.enemies[(layer.x, layer.y)].update(window, world_offset)
+                        pass
+                # for obj in layer:
+                #     col_rect = pygame.Rect(obj['x'], obj['y'], obj['width'], obj['height'])
+                # collision_rects.append(col_rect)
+        except:
+            print("Error getting tiles from layer !")
+
+
+def blit_all_enemies(game, window, tmxdata, world_offset):
+    for layer in tmxdata:
+        try:
+            pass
+            # layer['type'] != 'objectgroup': # and layer['name'] == 'Collision Layer':
+
         except:
             print("Error getting tiles from layer !")
 
@@ -99,6 +122,11 @@ def blit_all_tiles(game, window, tmxdata, world_offset):
 def update_animations(game, window, world_offset):
     for tile in game.animations:
         game.animations[(tile[0], tile[1])].update(window, world_offset)
+
+
+def update_enemies(game, window, world_offset):
+    for tile in game.enemies:
+        game.enemies[(tile[0], tile[1])].update(window, world_offset)
 
 
 def get_tile_properties(tmxdata, x, y, world_offset):
