@@ -9,7 +9,7 @@ class Entity:
         self.x=x
         self.y=y
         self.game = game
-
+        self.moving_x_direction = 0
         self.assets = {
             "player_stand": load_images("entities/player/idle"),
             "player_jump": load_images("entities/player/jump"),
@@ -35,10 +35,20 @@ class Entity:
 
             # ******** Collisions ********
             
-            standing_on = get_tile_properties(tmxdata, self.x + (self.player_width / 2), self.y + self.player_height, self.game.world_offset) # bottom center player sprite
-            # print(standing_on)
+            # Bottom Center Player Sprite
+            #-----
+            #|   | <<--
+            #|   | -->>
+            #-----
+            standing_on = get_tile_properties(
+                tmxdata, 
+                self.x + int(self.player_width / 2), 
+                self.y + self.player_height, 
+                self.game.world_offset)
+            
 
             # Monitor x Movment (Direction)
+            #******** Your LEFT/RIGHT  logic here **************
             if keypressed[ord("a")]:
                 left_tile = get_tile_properties(
                     tmxdata,
@@ -74,7 +84,7 @@ class Entity:
                     self.direction = "stand"
 
 
-            #******** Your game logic here **************
+            #******** Your JUMP/FALL  logic here **************
             if self.player_jump_frame > 0: # Jumping in progress
                 above_tile = get_tile_properties(
                     tmxdata,
@@ -92,6 +102,26 @@ class Entity:
             elif standing_on["ground"] == 0:
                 self.y = self.y + 10
                 self.direction = "land"
+
+            
+            # Touching logic x axis
+            if(self.direction == 'right'):
+                self.moving_x_direction = 0
+            if(self.direction == 'left'):
+                self.moving_x_direction = self.player_width
+            
+            touching = get_tile_properties(
+                tmxdata, 
+                self.x + self.moving_x_direction, 
+                self.y + int(self.player_height / 2) + 10, 
+                self.game.world_offset) 
+
+            print(touching.get('health'))
+            if touching.get('health') != None:
+                self.game.health += touching["health"]
+
+            if touching.get('points') != None:
+                self.game.points += touching["points"]
 
     def render(self, tmxdata, window):
          # Draw the player

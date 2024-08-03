@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.10" tiledversion="1.10.2" name="darkwood-tileset" tilewidth="16" tileheight="16" tilecount="198" columns="18">
-<image source="C:\Users\marius\OneDrive\Documents\VscodeProjects\ninja_game\data\images\tiles\tileset\tileset.png" width="288" height="176"/>
+ <image source="../images/tiles/tileset/tileset.png" width="288" height="176"/>
  <tile id="77">
   <properties>
    <property name="ground" type="int" value="1"/>
@@ -29,6 +29,13 @@
   <properties>
    <property name="ground" type="int" value="1"/>
    <property name="solid" type="int" value="1"/>
+  </properties>
+ </tile>
+ <tile id="94">
+  <properties>
+   <property name="ground" type="int" value="0"/>
+   <property name="health" type="int" value="-1"/>
+   <property name="solid" type="int" value="0"/>
   </properties>
  </tile>
  <tile id="162">

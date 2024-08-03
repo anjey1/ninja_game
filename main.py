@@ -6,6 +6,8 @@ from entities import Entity
 
 BASE_IMG_PATH = "data/images/"
 PIXELS_IN_TILE = 32
+HEALTH = 100
+POINTS = 0
 
 pygame.font.init()
 FONT = pygame.font.SysFont("Arial",18)
@@ -33,15 +35,13 @@ class Game:
         # self.player2 = Entity(self,600)
 
     def main(self):
-        
         tmxdata = load_pygame('data\maps\map.tmx')
 #        y_ground = 
         quit = False
         #x = 400
         #y = y_ground
-
-        
-
+        self.health = HEALTH
+        self.points = POINTS
 
         #*************** Start game loop ***************
         while not quit:
@@ -50,6 +50,14 @@ class Game:
 
             PLAYER_LOCATION = FONT.render(f"x, y: {self.player.x, self.player.y}", 1, (255,255,255))
             self.window.blit(PLAYER_LOCATION, (50,50))
+
+            HEALTH_HUD = FONT.render(f"health: {self.health}", 1, (255,255,255))
+            self.window.blit(HEALTH_HUD, (50,30))
+
+            POINTS_HUD = FONT.render(f"points: {self.points}", 1, (255,255,255))
+            self.window.blit(POINTS_HUD, (50,10))
+            
+
 
             #******* Proccess events **********
             
