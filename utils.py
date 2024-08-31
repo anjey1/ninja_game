@@ -58,8 +58,8 @@ def blit_all_tiles(game, window, tmxdata, world_offset):
                     # tile[2] .... image data for blitting
                     tile = list(tile)
                     pixels_in_image = PIXELS_IN_TILE
-                    x_pixel = tile[0] * pixels_in_image + world_offset[0]
-                    y_pixel = tile[1] * pixels_in_image + world_offset[1]
+                    x_pixel = (tile[0] * pixels_in_image) + world_offset[0]
+                    y_pixel = (tile[1] * pixels_in_image) + world_offset[1]
 
                     # Animated Tiles
                     # tile_props = tmxdata.get_tile_properties_by_gid(index)
@@ -70,7 +70,7 @@ def blit_all_tiles(game, window, tmxdata, world_offset):
                         tile_props.get("frames")
                         and (tile[0], tile[1]) not in game.animations
                     ):
-                        from entities import Animate
+                        from entities import Animate  # type: ignore
 
                         game.animations[(tile[0], tile[1])] = Animate(
                             tmxdata=tmxdata,
@@ -93,10 +93,13 @@ def blit_all_tiles(game, window, tmxdata, world_offset):
 
                     # Add enemy object
                     if (layer.x, layer.y) not in game.enemies:
-                        from entities import Enemy
+                        from entities import Enemy  # type: ignore
 
                         game.enemies[(layer.x, layer.y)] = Enemy(
-                            x=layer.x, y=layer.y, tile_x=layer.x, tile_y=layer.y
+                            x=layer.properties["tile_x"] * PIXELS_IN_TILE,
+                            y=layer.properties["tile_y"] * PIXELS_IN_TILE,
+                            tile_x=layer.properties["tile_x"],
+                            tile_y=layer.properties["tile_y"],
                         )
                         print(f"enemy {tile[0]},{tile[1]}, added")
                     else:
@@ -124,9 +127,9 @@ def update_animations(game, window, world_offset):
         game.animations[(tile[0], tile[1])].update(window, world_offset)
 
 
-def update_enemies(game, window, world_offset):
+def update_enemies(game, tmxdata, window, world_offset):
     for tile in game.enemies:
-        game.enemies[(tile[0], tile[1])].update(window, world_offset)
+        game.enemies[(tile[0], tile[1])].update(tmxdata, window, world_offset)
 
 
 def get_tile_properties(tmxdata, x, y, world_offset):
@@ -150,6 +153,8 @@ def get_tile_properties(tmxdata, x, y, world_offset):
             "requires": "",
             "solid": 0,
             "remove": False,
+            "tile_x": tile_x,
+            "tile_y": tile_y,
         }
 
     if properties is None:
@@ -163,6 +168,55 @@ def get_tile_properties(tmxdata, x, y, world_offset):
             "requires": "",
             "solid": 0,
             "remove": False,
+            "tile_x": tile_x,
+            "tile_y": tile_y,
+        }
+
+    properties["x"] = tile_x
+    properties["y"] = tile_y
+
+    return properties
+
+
+def get_tile_properties_enemy(tmxdata, x, y, world_offset):
+    world_x = x
+    world_y = y
+    tile_x = world_x // PIXELS_IN_TILE  # pixels in tile
+    tile_y = world_y // PIXELS_IN_TILE  # pixels in tile
+
+    # *********** Handle tile properties**************
+    try:
+
+        properties = tmxdata.get_tile_properties(tile_x, tile_y, 0)
+    except ValueError:
+        # Fill in missing tiles with default values and kill on sight
+        properties = {
+            "id": -1,
+            "climable": 0,
+            "ground": 0,
+            "health": -9999,
+            "points": 0,
+            "provides": "",
+            "requires": "",
+            "solid": 0,
+            "remove": False,
+            "tile_x": tile_x,
+            "tile_y": tile_y,
+        }
+
+    if properties is None:
+        properties = {
+            "id": -1,
+            "climable": 0,
+            "ground": 0,
+            "health": 0,
+            "points": 0,
+            "provides": "",
+            "requires": "",
+            "solid": 0,
+            "remove": False,
+            "tile_x": tile_x,
+            "tile_y": tile_y,
         }
 
     properties["x"] = tile_x

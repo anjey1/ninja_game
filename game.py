@@ -1,9 +1,9 @@
 import sys
 
 import pygame
-from scripts.entities import PhysicsEntity, Player
-from scripts.utils import load_image, load_images, Animation
-from scripts.tilemap import Tilemap
+from scripts.old.entities import PhysicsEntity, Player
+from scripts.old.utils import load_image, load_images, Animation
+from scripts.old.tilemap import Tilemap
 from scripts.clouds import Clouds
 
 class Game:

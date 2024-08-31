@@ -4,6 +4,7 @@ from pytmx.util_pygame import load_pygame
 from entities import PhysicsEntity, Animate
 from utils import blit_all_tiles, update_animations, load_images, update_enemies
 from scripts.clouds import Clouds
+from dialog import DialogView
 
 LR_MOVMENT_OFFSET = 15
 PLAYER_JUMP_HEIGHT = 23
@@ -18,6 +19,7 @@ class Game:
     def __init__(self):
         pygame.init()
         width, height = 1920, 1080
+        # width, height = 1200, 640
         # pygame.mixer.init()
         pygame.display.set_caption("Jhonny B")
         self.window = pygame.display.set_mode((width, height))
@@ -25,7 +27,8 @@ class Game:
         self.animations = {}
         self.enemies = {}
         self.player = PhysicsEntity(self)
-
+        self.dialog = False
+        self.dialog_view = DialogView(self.window)
         self.clouds = Clouds(load_images("clouds", False, 300, 200), 9)
         # self.player2 = PhysicsEntity(self, 540, 250, True)
 
@@ -38,7 +41,7 @@ class Game:
         global POINTS
 
         # Loading State
-        tmxdata = load_pygame("map5.tmx")
+        tmxdata = load_pygame("map6.tmx")
 
         y_ground = self.window.get_height() - 418
 
@@ -71,12 +74,17 @@ class Game:
             self.window.blit(POINTS_IMG, (50, 10))
             self.window.blit(HEALTH_IMG, (50, 30))
 
-            # ******* Proccess events **********
+            # ******* Proccess game events **********
 
             for event in pygame.event.get():
                 # print(event)  # Useful for debug
                 if event.type == QUIT:
                     quit = True
+                if self.dialog:
+                    keypressed = ""
+                    keypressed = pygame.key.get_pressed()
+                    if keypressed[ord("k")]:
+                        self.dialog_view.next_line()
 
             # ******** World Offset logic **************
             if self.player.y < 134:
@@ -103,12 +111,15 @@ class Game:
             # self.player.render(self.display,  offset=render_scroll)
 
             update_animations(self, self.window, self.world_offset)
-            update_enemies(self, self.window, self.world_offset)
+            update_enemies(self, tmxdata, self.window, self.world_offset)
 
             # self.player2.update(tmxdata, self.window)
             # self.player.render(self.window, direction)
 
             self.player.update(tmxdata, self.window)
+
+            if self.dialog == True:
+                self.dialog_view.render(self.window)
             # ************** Update screen ****************
             pygame.display.update()  # Actually does the screen update
             self.clock.tick(30)  # Run at 30 frames per second
