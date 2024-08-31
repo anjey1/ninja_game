@@ -38,6 +38,14 @@
    <property name="solid" type="int" value="0"/>
   </properties>
  </tile>
+ <tile id="153">
+  <properties>
+   <property name="ground" type="int" value="0"/>
+   <property name="points" type="int" value="1"/>
+   <property name="remove" type="bool" value="true"/>
+   <property name="solid" type="int" value="0"/>
+  </properties>
+ </tile>
  <tile id="162">
   <properties>
    <property name="ground" type="int" value="1"/>

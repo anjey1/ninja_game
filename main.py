@@ -37,14 +37,14 @@ class Game:
     def main(self):
         tmxdata = load_pygame('data\maps\map.tmx')
 #        y_ground = 
-        quit = False
+        self.quit = False
         #x = 400
         #y = y_ground
         self.health = HEALTH
         self.points = POINTS
 
         #*************** Start game loop ***************
-        while not quit:
+        while not self.quit:
             self.window.fill((3,194,252))
             blit_all_tiles(self.window, tmxdata, self.world_offset)
 
@@ -64,7 +64,7 @@ class Game:
             for event in pygame.event.get():
                 # print(event)  # Useful for debug
                 if event.type == QUIT:
-                    quit = True
+                    self.quit = True
             
             # World Moves - Handle world offset
             # print(f"{self.player.y,self.player.x}")

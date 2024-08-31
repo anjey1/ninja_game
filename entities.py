@@ -2,6 +2,8 @@ import pygame
 from pygame.image import load
 from utils import get_tile_properties, load_image, load_images
 
+PIXELS_IN_TILE = 32
+
 class Entity:
     def __init__(self,game, x=400, y=200):
         self.player_width = 50
@@ -113,15 +115,22 @@ class Entity:
             touching = get_tile_properties(
                 tmxdata, 
                 self.x + self.moving_x_direction, 
-                self.y + int(self.player_height / 2) + 10, 
+                self.y + self.player_height - 10, 
                 self.game.world_offset) 
 
             print(touching.get('health'))
+            print(touching)
             if touching.get('health') != None:
-                self.game.health += touching["health"]
+                self.game.health += touching["health"]    
+                if self.game.health < 0:
+                    self.game.quit = True
 
             if touching.get('points') != None:
                 self.game.points += touching["points"]
+                if touching.get('remove') is not None and touching['remove'] == True:
+                    tile_y = (self.y - self.game.world_offset[1]) // PIXELS_IN_TILE
+                    tile_x = (self.x - self.game.world_offset[0]) // PIXELS_IN_TILE
+                    tmxdata.layers[0].data[tile_y][tile_x] = 0
 
     def render(self, tmxdata, window):
          # Draw the player
