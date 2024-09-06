@@ -7,14 +7,22 @@ from utils import load_images, PIXELS_IN_TILE, get_tile_properties, get_tile_pro
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, x=710, y=222,  tile_x = 21, tile_y = 16, debug=False):
+        super().__init__()
         self.directions = ["stand", "right", "stand", "right", "stand"]
         # self.directions = ["stand"]
         self.tile_x = tile_x
         self.tile_y = tile_y
+        
         self.width = 40
-        self.height = 50
+        self.height = 60
         self.x = x
         self.y = y
+
+        # Add rectangle for collisions - maybe use the tile print coords x,y,widht,height
+        self.image = pygame.Surface((self.width,self.height))
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.x,self.y)
+
         self.last_update = pygame.time.get_ticks()
         self.last_direction_index = 0
         self.last_direction = "stand"
@@ -66,16 +74,14 @@ class Enemy(pygame.sprite.Sprite):
             self.last_direction = self.directions[self.last_direction_index]
 
         if self.last_stand != standing_on['id']:
-            print(f'standing on {standing_on}')
+            #print(f'standing on {standing_on}')
             self.last_stand = standing_on['id']
-        # print(f'self.x {self.x} self.y {self.y}')
 
         try: 
             if standing_on["ground"] == 0 and standing_on["climable"] == 0:  # Landing/Falling in progress
                 self.y = self.y + 10
                 self.direction = "land"
-                print(f'standing on {standing_on}')
-                # print(f'self.x {self.x} self.y {self.y}')
+                #print(f'standing on {standing_on}')
                 
         except KeyError:
             if standing_on is not None:
@@ -99,19 +105,26 @@ class Enemy(pygame.sprite.Sprite):
             self.render(window, 'stand')
         
         self.world_offset = world_offset
-        
-        self.destroy()
+        self.rect.update(self.x, self.y, self.width, self.height)
+
+        # Add frame to enemy
+        pygame.draw.rect(window,(255,0,0),(self.x  + self.world_offset[0], self.y  + self.world_offset[1], self.width, self.height),2)
+
+        # self.destroy()
+
+        # Returning to update in enemies array - maybe there is a better update way
+        return self
 
     def render(self, window, direction='none'):
 
         if direction == "left":
-            window.blit(self.assets["enemy_left"][self.enemy_left_frame], (self.x + self.world_offset[0], self.y+ self.world_offset[1]))
+            window.blit(self.assets["enemy_left"][self.enemy_left_frame], (self.x + self.world_offset[0], self.y + self.world_offset[1]))
             self.enemy_left_frame = (self.enemy_left_frame + 1) % len(self.assets["enemy_left"])
         elif direction == "right":
-            window.blit(self.assets["enemy_right"][self.enemy_right_frame], (self.x + self.world_offset[0], self.y+ self.world_offset[1]))
+            window.blit(self.assets["enemy_right"][self.enemy_right_frame], (self.x + self.world_offset[0], self.y + self.world_offset[1]))
             self.enemy_right_frame = (self.enemy_right_frame + 1) % len(self.assets["enemy_right"])
         else:
-            window.blit(self.assets["enemy_stand"][self.enemy_stand_frame], (self.x + self.world_offset[0], self.y+ self.world_offset[1]))
+            window.blit(self.assets["enemy_stand"][self.enemy_stand_frame], (self.x + self.world_offset[0], self.y + self.world_offset[1]))
             self.enemy_stand_frame = (self.enemy_stand_frame + 1) % len(self.assets["enemy_stand"])
         
         ENEMY_LOCATION = FONT.render(
@@ -175,10 +188,17 @@ class Animate:
 class PhysicsEntity(pygame.sprite.Sprite):
 
     def __init__(self, game, x=0, y=0, debug=False):
+        super().__init__()
         self.x = x
         self.y = y   #640 - 418
         self.width = 40
         self.height = 56
+
+        # Add rectangle for collisions - maybe there is a better way to handle collisions
+        self.image = pygame.Surface((self.width,self.height))
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.x,self.y)
+
         self.inventory = []
         self.points = 0
         self.direction = "stand"
@@ -203,29 +223,6 @@ class PhysicsEntity(pygame.sprite.Sprite):
         self.PLAYER_JUMP_HEIGHT = 23
 
         self.game = game
-        # self.type = e_type
-        # self.pos = list(pos) # covert itirable into list
-        # self.size = size
-        # self.velocity = [0,0]
-        # self.collisions = {'up': False, 'down': False, 'right': False, 'left': False}
-
-        # self.action = ''
-        # self.anim_offset = (-3, -3) # overlay player image (8,15)
-        # self.flip = False
-        # self.set_action('idle')
-
-    # def rect(self):
-    #     return pygame.Rect(
-    #         self.pos[0],
-    #         self.pos[1],
-    #         self.size[0],
-    #         self.size[1],
-    #         )
-
-    # def set_action(self, action):
-    #     if action != self.action:
-    #         self.action = action
-    #         self.animation = self.game.assets[self.type + '/' + self.action].copy()
 
     def update(self, tmxdata, window):
 
@@ -375,7 +372,15 @@ class PhysicsEntity(pygame.sprite.Sprite):
                     self.direction = "land"
             except KeyError:
                 print(f'landing falling error {standing_on['ground'],standing_on['climable']}')
-    
+
+        self.rect.update(
+                            self.x - self.game.world_offset[0], self.y - self.game.world_offset[1], self.width, self.height
+                        )
+
+        # Draw rect around enemy        
+        pygame.draw.rect(window,(0,0,255),(self.x, self.y, self.width, self.height),2)
+
+
         self.render(window, self.direction)
         pass
 
@@ -383,17 +388,6 @@ class PhysicsEntity(pygame.sprite.Sprite):
         
     #def render(self, surf, offset =(0,0)):
     def render(self, window, direction):
-        # surf.blit(
-        #     pygame.transform.flip(self.animation.img(), 
-        #     self.flip, 
-        #     False,
-        #     (self.pos[0] - offset[0] + self.anim_offset[0], self.pos[1] - offset[1] + self.anim_offset[1])
-        # ))
-        #surf.blit(pygame.transform.flip(self.animation.img(), self.flip, False), (self.pos[0] - offset[0] + self.anim_offset[0], self.pos[1] - offset[1] + self.anim_offset[1]))
-
-        # Draw the player
-        # print(f'x: {x} y: {y}')
-        # print(direction)
         if direction == "left":
             window.blit(self.assets["player_left"][self.player_left_frame], (self.x, self.y))
             self.player_left_frame  = (self.player_left_frame + 1) % len(self.assets["player_left"])

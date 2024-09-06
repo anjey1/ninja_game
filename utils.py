@@ -7,6 +7,21 @@ player_width = 40
 player_height = 56
 
 
+# Define a custom sprite class - Can be used for animations
+class RectSprite(pygame.sprite.Sprite):
+    def __init__(self, rect):
+        super().__init__()
+        self.image = pygame.Surface((rect.width, rect.height))
+        self.rect = rect
+
+    def update(self):
+        # Add any movement or update logic here
+        # maybe we can use this somehow to update
+        # the enemy rect inside enemy array without
+        # returning the enemy object
+        pass
+
+
 def load_image(path):
     img = pygame.image.load(BASE_IMG_PATH + path).convert()
     img.set_colorkey((0, 0, 0))
@@ -62,7 +77,6 @@ def blit_all_tiles(game, window, tmxdata, world_offset):
                     y_pixel = (tile[1] * pixels_in_image) + world_offset[1]
 
                     # Animated Tiles
-                    # tile_props = tmxdata.get_tile_properties_by_gid(index)
                     tile_props = tmxdata.get_tile_properties(tile[0], tile[1], 0)
 
                     # Add animated object
@@ -74,12 +88,14 @@ def blit_all_tiles(game, window, tmxdata, world_offset):
 
                         game.animations[(tile[0], tile[1])] = Animate(
                             tmxdata=tmxdata,
+                            # Where to draw
                             x=x_pixel,
                             y=y_pixel,
+                            # What to draw
                             tile_x=tile[0],
                             tile_y=tile[1],
                         )
-                        print(f"animation {tile[0]},{tile[1]}, added")
+                        #print(f"animation {tile[0]},{tile[1]}, added")
                     else:
                         # Static Tiles
                         tile_img = pygame.transform.scale(
@@ -95,19 +111,31 @@ def blit_all_tiles(game, window, tmxdata, world_offset):
                     if (layer.x, layer.y) not in game.enemies:
                         from entities import Enemy  # type: ignore
 
-                        game.enemies[(layer.x, layer.y)] = Enemy(
+                        enemy = Enemy(
+                            # Where to draw
                             x=layer.properties["tile_x"] * PIXELS_IN_TILE,
                             y=layer.properties["tile_y"] * PIXELS_IN_TILE,
+                            # What to draw
                             tile_x=layer.properties["tile_x"],
                             tile_y=layer.properties["tile_y"],
                         )
-                        print(f"enemy {tile[0]},{tile[1]}, added")
-                    else:
-                        # game.enemies[(layer.x, layer.y)].update(window, world_offset)
-                        pass
-                # for obj in layer:
-                #     col_rect = pygame.Rect(obj['x'], obj['y'], obj['width'], obj['height'])
-                # collision_rects.append(col_rect)
+
+                        # adding to enemies objects array for internal enemy logic
+                        game.enemies[(layer.x, layer.y)] = enemy
+
+                        # adding to enemies objects array for external enemy logic
+                        enemy_rect = pygame.rect.Rect(
+                            # Where to draw
+                            layer.properties["tile_x"] * PIXELS_IN_TILE,
+                            layer.properties["tile_y"] * PIXELS_IN_TILE,
+                            # What to draw
+                            enemy.width,
+                            enemy.height,
+                        )
+                        enemy_sprite = RectSprite(enemy_rect)
+                        game.enemies_group.append(enemy_sprite.rect)
+                        enemy.group_index = len(game.enemies_group) - 1
+
         except:
             print("Error getting tiles from layer !")
 
@@ -129,7 +157,8 @@ def update_animations(game, window, world_offset):
 
 def update_enemies(game, tmxdata, window, world_offset):
     for tile in game.enemies:
-        game.enemies[(tile[0], tile[1])].update(tmxdata, window, world_offset)
+        enemy = game.enemies[(tile[0], tile[1])].update(tmxdata, window, world_offset)
+        game.enemies_group[enemy.group_index] = enemy.rect
 
 
 def get_tile_properties(tmxdata, x, y, world_offset):
