@@ -42,6 +42,7 @@ class Entity:
             #|   | <<--
             #|   | -->>
             #-----
+            # Get Tile Below - Check for ground - Axis Y
             standing_on = get_tile_properties(
                 tmxdata, 
                 self.x + int(self.player_width / 2), 
@@ -88,13 +89,30 @@ class Entity:
 
             #******** Your JUMP/FALL  logic here **************
             if self.player_jump_frame > 0: # Jumping in progress
+                
+                # Get Tile Above - Check for ground - Axis Y
                 above_tile = get_tile_properties(
                     tmxdata,
-                    self.x + self.player_width, # - LR_MOVMENT_OFFSET
+                    self.x, # - LR_MOVMENT_OFFSET
                     self.y + (self.player_height / 2),
                     self.game.world_offset,
                 )
-                if above_tile["solid"] == 0:
+
+                pygame.draw.rect(
+                    window,
+                    (255,0,0),
+                    (
+                        # Where
+                        self.x,
+                        self.y + (self.player_height / 2),
+                        # What
+                        self.player_width,
+                        self.player_height
+                    ),
+                    2
+                )
+
+                if above_tile["ground"] == 0:
                     self.y = self.y - 10
                     self.direction = "jump"
                     self.player_jump_frame -=1 # 20 - 1
@@ -112,14 +130,31 @@ class Entity:
             if(self.direction == 'left'):
                 self.moving_x_direction = self.player_width
             
+
+            # Get Tile Aside - Check for solid - Axis X
             touching = get_tile_properties(
                 tmxdata, 
-                self.x + self.moving_x_direction, 
-                self.y + self.player_height - 10, 
-                self.game.world_offset) 
+                self.x, 
+                self.y + self.player_height - 10,
+                self.game.world_offset)
 
-            print(touching.get('health'))
-            print(touching)
+            pygame.draw.rect(
+                window,
+                (0,0,255),
+                (
+                    # Where
+                    self.x,
+                    self.y - 10,
+                    # What
+                    self.player_width,
+                    self.player_height
+                ),
+                2
+            )
+            
+            if touching.get('id') != None:
+                print(touching['id'], )
+
             if touching.get('health') != None:
                 self.game.health += touching["health"]    
                 if self.game.health < 0:
@@ -128,8 +163,9 @@ class Entity:
             if touching.get('points') != None:
                 self.game.points += touching["points"]
                 if touching.get('remove') is not None and touching['remove'] == True:
-                    tile_y = (self.y - self.game.world_offset[1]) // PIXELS_IN_TILE
+                    tile_y = (self.y - self.game.world_offset[1] + 50) // PIXELS_IN_TILE
                     tile_x = (self.x - self.game.world_offset[0]) // PIXELS_IN_TILE
+                    print(f'Tile Removed{tile_x,tile_y}')
                     tmxdata.layers[0].data[tile_y][tile_x] = 0
 
     def render(self, tmxdata, window):

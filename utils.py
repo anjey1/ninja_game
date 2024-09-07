@@ -68,17 +68,18 @@ def get_tile_properties(tmxdata, x, y, world_offset):
     try:
         properties = tmxdata.get_tile_properties(tile_x, tile_y, 0)
     except ValueError:
-        # Fill in missing tiles with default values and kill on sight
+        # Return when touching Sprite out of map
         properties = {
             "climable": 0,
             "ground": 0,
-            "health": -9999,
+            "health": 0,
             "points": 0,
             "provides": "",
             "requires": "",
             "solid": 0,
         }
 
+    # Return when touching Empty Sprite
     if properties is None:
         properties = {
             "climable": 0,
