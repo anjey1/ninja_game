@@ -72,7 +72,7 @@ def get_tile_properties(tmxdata, x, y, world_offset):
         properties = {
             "climable": 0,
             "ground": 0,
-            "health": -9999,
+            "health": 0,
             "points": 0,
             "provides": "",
             "requires": "",
