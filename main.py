@@ -3,6 +3,7 @@ from pygame.locals import *
 from pytmx.util_pygame import load_pygame
 from utils import blit_all_tiles, load_image, get_tile_properties
 from entities import Entity
+from enemies import Enemy
 
 BASE_IMG_PATH = "data/images/"
 PIXELS_IN_TILE = 32
@@ -32,6 +33,7 @@ class Game:
         self.world_offset = [0,0]
 
         self.player = Entity(self)
+        self.enemy = Enemy(self,600,200)
         # self.player2 = Entity(self,600)
 
     def main(self):
@@ -89,6 +91,9 @@ class Game:
 
             self.player.update(tmxdata, self.window)
             self.player.render(tmxdata, self.window)
+
+            self.enemy.update(tmxdata, self.window)
+            self.enemy.render(tmxdata, self.window)
 
             # self.player2.update(tmxdata, self.window)
             # self.player2.render(tmxdata, self.window)
