@@ -11,11 +11,12 @@ HEALTH = 100
 POINTS = 0
 
 pygame.font.init()
-FONT = pygame.font.SysFont("Arial",18)
+FONT = pygame.font.SysFont("Arial", 18)
+
 
 class Game:
-    def __init__(self): # Constructor
-        #*************** Initialize & run the game **************
+    def __init__(self):  # Constructor
+        # *************** Initialize & run the game **************
         pygame.init()
         # pygame.mixer.init()
         pygame.display.set_caption("Jhonny C")
@@ -26,56 +27,67 @@ class Game:
         self.clock = pygame.time.Clock()
 
         self.x = 400
-        self.y_ground = self.window.get_height() - 234 # 640-234
+        self.y_ground = self.window.get_height() - 234  # 640-234
         self.y = self.y_ground
 
         # change from camera original setting (x,y)
-        self.world_offset = [0,0]
+        self.world_offset = [0, 0]
 
         self.player = Entity(self)
-        self.enemy = Enemy(self,600,200)
+        self.enemy = Enemy(self, 1050, 149)
+        self.enemy2 = Enemy(self, 600, 200)
         # self.player2 = Entity(self,600)
 
     def main(self):
-        tmxdata = load_pygame('data\maps\map.tmx')
-#        y_ground = 
+        tmxdata = load_pygame("data/maps/map.tmx")
+        #        y_ground =
         self.quit = False
-        #x = 400
-        #y = y_ground
+        # x = 400
+        # y = y_ground
         self.health = HEALTH
         self.points = POINTS
 
-        #*************** Start game loop ***************
+        # *************** Start game loop ***************
         while not self.quit:
-            self.window.fill((3,194,252))
+            self.window.fill((3, 194, 252))
             blit_all_tiles(self.window, tmxdata, self.world_offset)
 
-            PLAYER_LOCATION = FONT.render(f"x, y: {self.player.x, self.player.y}", 1, (255,255,255))
-            self.window.blit(PLAYER_LOCATION, (50,50))
+            PLAYER_LOCATION = FONT.render(
+                f"x, y: {self.player.x, self.player.y}", 1, (255, 255, 255)
+            )
+            self.window.blit(PLAYER_LOCATION, (50, 50))
 
-            HEALTH_HUD = FONT.render(f"health: {self.health}", 1, (255,255,255))
-            self.window.blit(HEALTH_HUD, (50,30))
+            ENEMY_LOCATION = FONT.render(
+                f"Enemy x, y: {self.enemy.x, self.enemy.y}", 1, (255, 255, 255)
+            )
+            self.window.blit(ENEMY_LOCATION, (50, 70))
 
-            POINTS_HUD = FONT.render(f"points: {self.points}", 1, (255,255,255))
-            self.window.blit(POINTS_HUD, (50,10))
-            
+            ENEMY_STANDING_ON = FONT.render(
+                f"Enemy Standing ON: {self.enemy.standing_on}", 1, (255, 255, 255)
+            )
+            self.window.blit(ENEMY_STANDING_ON, (50, 90))
 
+            HEALTH_HUD = FONT.render(f"health: {self.health}", 1, (255, 255, 255))
+            self.window.blit(HEALTH_HUD, (50, 30))
 
-            #******* Proccess events **********
-            
+            POINTS_HUD = FONT.render(f"points: {self.points}", 1, (255, 255, 255))
+            self.window.blit(POINTS_HUD, (50, 10))
+
+            # ******* Proccess events **********
+
             for event in pygame.event.get():
                 # print(event)  # Useful for debug
                 if event.type == QUIT:
                     self.quit = True
-            
+
             # World Moves - Handle world offset
             # print(f"{self.player.y,self.player.x}")
-            if self.player.y < 134:                 
+            if self.player.y < 134:
                 self.player.y = 134
                 self.world_offset[1] += 10
 
-            if self.player.y > self.y_ground:       
-                self.player.y = self.y_ground       
+            if self.player.y > self.y_ground:
+                self.player.y = self.y_ground
                 self.world_offset[1] -= 10
 
             if self.player.x < 340:
@@ -85,21 +97,24 @@ class Game:
             if self.player.x > self.window.get_width() - 340 - 50:
                 self.player.x = self.window.get_width() - 340 - 50
                 self.world_offset[0] -= 10
-            
-        
-            #************** Update screen ****************
 
-            self.player.update(tmxdata, self.window)
+            # ************** Update screen ****************
+
+            # enemy calculated without world offset and printed with
+            self.player.update(tmxdata, self.window)  # window only used for debug
             self.player.render(tmxdata, self.window)
 
             self.enemy.update(tmxdata, self.window)
-            self.enemy.render(tmxdata, self.window)
+            self.enemy.render(self.window, self.world_offset)
+
+            self.enemy2.update(tmxdata, self.window)
+            self.enemy2.render(self.window, self.world_offset)
 
             # self.player2.update(tmxdata, self.window)
             # self.player2.render(tmxdata, self.window)
 
-            pygame.display.update()         # Actually does the screen update
-            self.clock.tick(30)             # Run at 30 frames per second
+            pygame.display.update()  # Actually does the screen update
+            self.clock.tick(30)  # Run at 30 frames per second
 
 
 Game().main()

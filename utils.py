@@ -78,6 +78,44 @@ def get_tile_properties(tmxdata, x, y, world_offset):
             "requires": "",
             "solid": 0,
         }
+    except TypeError:
+        pass
+
+    # Return when touching Empty Sprite
+    if properties is None:
+        properties = {
+            "climable": 0,
+            "ground": 0,
+            "health": 0,
+            "points": 0,
+            "provides": "",
+            "requires": "",
+            "solid": 0,
+        }
+    return properties
+
+
+# the function that in charge of getting data from the tmx (Tiled App)
+def get_tile_properties_enemies(tmxdata, x, y, world_offset):
+    world_x = x
+    world_y = y
+    tile_x = world_x // PIXELS_IN_TILE  # pixels in tile
+    tile_y = world_y // PIXELS_IN_TILE  # pixels in tile
+
+    # *********** Handle tile properties**************
+    try:
+        properties = tmxdata.get_tile_properties(tile_x, tile_y, 0)
+    except ValueError:
+        # Return when touching Sprite out of map
+        properties = {
+            "climable": 0,
+            "ground": 0,
+            "health": 0,
+            "points": 0,
+            "provides": "",
+            "requires": "",
+            "solid": 0,
+        }
 
     # Return when touching Empty Sprite
     if properties is None:
