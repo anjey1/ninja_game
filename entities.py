@@ -1,5 +1,6 @@
 import pygame
 from pygame.image import load
+from pytmx.util_pygame import load_pygame
 from utils import get_tile_properties, load_image, load_images
 
 PIXELS_IN_TILE = 32
@@ -163,6 +164,16 @@ class Entity:
                 tile_x = (self.x - self.game.world_offset[0]) // PIXELS_IN_TILE
                 print(f"Tile Removed{tile_x,tile_y}")
                 tmxdata.layers[0].data[tile_y][tile_x] = 0
+        
+        if touching.get("teleport") != None:
+            if self.game.current_map_verbose == "map":
+                self.game.tmxdata = load_pygame(self.game.location_maps["cave"])
+                self.game.current_map_verbose = "cave"
+                
+            else:
+                self.game.tmxdata = load_pygame(self.game.location_maps["map"])
+                self.game.current_map_verbose = "map"
+
 
     def render(self, tmxdata, window):
         # Draw the player

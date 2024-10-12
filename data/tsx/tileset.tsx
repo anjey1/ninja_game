@@ -38,6 +38,68 @@
    <property name="solid" type="int" value="0"/>
   </properties>
  </tile>
+ <tile id="130">
+  <properties>
+   <property name="ground" type="int" value="0"/>
+   <property name="solid" type="int" value="0"/>
+  </properties>
+ </tile>
+ <tile id="131">
+  <properties>
+   <property name="ground" type="int" value="0"/>
+   <property name="solid" type="int" value="0"/>
+  </properties>
+ </tile>
+ <tile id="132">
+  <properties>
+   <property name="ground" type="int" value="0"/>
+   <property name="solid" type="int" value="0"/>
+  </properties>
+ </tile>
+ <tile id="133">
+  <properties>
+   <property name="ground" type="int" value="0"/>
+   <property name="solid" type="int" value="0"/>
+  </properties>
+ </tile>
+ <tile id="134">
+  <properties>
+   <property name="ground" type="int" value="0"/>
+   <property name="solid" type="int" value="0"/>
+  </properties>
+ </tile>
+ <tile id="148">
+  <properties>
+   <property name="ground" type="int" value="0"/>
+   <property name="solid" type="int" value="0"/>
+  </properties>
+ </tile>
+ <tile id="149">
+  <properties>
+   <property name="ground" type="int" value="0"/>
+   <property name="solid" type="int" value="0"/>
+  </properties>
+ </tile>
+ <tile id="150">
+  <properties>
+   <property name="ground" type="int" value="0"/>
+   <property name="solid" type="int" value="0"/>
+   <property name="teleport" type="bool" value="true"/>
+   <property name="teleport_target" value="cave.tmx"/>
+  </properties>
+ </tile>
+ <tile id="151">
+  <properties>
+   <property name="ground" type="int" value="0"/>
+   <property name="solid" type="int" value="0"/>
+  </properties>
+ </tile>
+ <tile id="152">
+  <properties>
+   <property name="ground" type="int" value="0"/>
+   <property name="solid" type="int" value="0"/>
+  </properties>
+ </tile>
  <tile id="153">
   <properties>
    <property name="ground" type="int" value="0"/>
