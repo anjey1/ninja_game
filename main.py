@@ -47,7 +47,7 @@ class Game:
         global POINTS
 
         # Loading State
-        tmxdata = load_pygame("map6.tmx")
+        tmxdata = load_pygame("map5.tmx")
 
         y_ground = self.window.get_height() - 418
 
@@ -112,9 +112,9 @@ class Game:
                 f"x,y: {self.player.x, self.player.y}", 1, (255, 255, 255)
             )
             self.window.blit(PLAYER_LOCATION, (50, 50))
-            
+
             update_animations(self, self.window, self.world_offset)
-            update_enemies(self, tmxdata, self.window, self.world_offset)
+            # update_enemies(self, tmxdata, self.window, self.world_offset)
 
             if self.player.rect.collidelist(self.enemies_group) >= 0:
                 print("colided with enemy")

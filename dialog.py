@@ -27,7 +27,7 @@ class DialogView:
         self.window_y = window.get_height() - dialog_box_heigth
         self.sprite = load_image(dialog_box_sprite)
 
-        self.current_line = -1
+        self.current_line = 0
         self.last_update = pygame.time.get_ticks()
         self.npc_file = npc_folder_location
         self.npc = "Redcliff"
@@ -46,7 +46,7 @@ class DialogView:
         print(f"current line :{self.current_line}")
 
         now = pygame.time.get_ticks()
-        if now - self.last_update > 300:
+        if now - self.last_update > 800:
             self.last_update = pygame.time.get_ticks()
 
             if self.current_line >= len(self.lines):

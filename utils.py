@@ -81,7 +81,8 @@ def blit_all_tiles(game, window, tmxdata, world_offset):
 
                     # Add animated object
                     if (
-                        tile_props.get("frames")
+                        tile_props != None
+                        and tile_props.get("frames")
                         and (tile[0], tile[1]) not in game.animations
                     ):
                         from entities import Animate  # type: ignore
@@ -95,7 +96,7 @@ def blit_all_tiles(game, window, tmxdata, world_offset):
                             tile_x=tile[0],
                             tile_y=tile[1],
                         )
-                        #print(f"animation {tile[0]},{tile[1]}, added")
+                        # print(f"animation {tile[0]},{tile[1]}, added")
                     else:
                         # Static Tiles
                         tile_img = pygame.transform.scale(
@@ -137,7 +138,7 @@ def blit_all_tiles(game, window, tmxdata, world_offset):
                         enemy.group_index = len(game.enemies_group) - 1
 
         except:
-            print("Error getting tiles from layer !")
+            print("Error getting tiles on blit tiles from layer !")
 
 
 def blit_all_enemies(game, window, tmxdata, world_offset):
@@ -147,7 +148,7 @@ def blit_all_enemies(game, window, tmxdata, world_offset):
             # layer['type'] != 'objectgroup': # and layer['name'] == 'Collision Layer':
 
         except:
-            print("Error getting tiles from layer !")
+            print("Error getting tiles on blit enemies from layer !")
 
 
 def update_animations(game, window, world_offset):
