@@ -1,12 +1,21 @@
 import pygame
-from pygame.image import load
-from utils import get_tile_properties_enemies, load_image, load_images
+from utils import get_tile_properties_enemies, load_images, drawInticator
 
 PIXELS_IN_TILE = 32
 
 
 class Enemy:
-    def __init__(self, game, x=400, y=200):
+    def __init__(
+        self, game, x=400, y=200, directions=["stand", "left", "stand", "right"]
+    ):
+        """Enemy Object
+
+        Args:
+            game (_type_): _description_
+            x (int, optional): _description_. Defaults to 400.
+            y (int, optional): _description_. Defaults to 200.
+            directions (list, optional): _description_. Defaults to ["stand", "left", "stand", "right"].
+        """
         self.player_width = 50
         self.player_height = 70
         self.x = x
@@ -21,7 +30,7 @@ class Enemy:
             "player_left": load_images("entities/player/run", True),
         }
 
-        self.directions = ["stand", "left", "stand", "right"]
+        self.directions = directions
         self.last_update = pygame.time.get_ticks()
         self.last_direction_index = 0
         self.last_direction = "stand"
@@ -36,6 +45,7 @@ class Enemy:
         # Maintain our direction
         self.direction = "stand"
         self.standing_on = None
+        self.touching = None
 
     def update(self, tmxdata, window):
 
@@ -48,7 +58,8 @@ class Enemy:
         # |   | <<--
         # |   | -->>
         # -----
-        # Get Tile Below - Check for ground - Axis Y
+
+        # Stanging On Logic HERE ↓ (collision)
         self.standing_on = standing_on = get_tile_properties_enemies(
             tmxdata,
             self.x + int(self.player_width / 2),
@@ -56,7 +67,15 @@ class Enemy:
             self.game.world_offset,
         )
 
-        # Select Direction
+        # standing
+        drawInticator(
+            window,
+            self.x + int(self.player_width / 2) + self.game.world_offset[0],
+            self.y + self.player_height + self.game.world_offset[1],
+            (255, 0, 255),
+        )
+
+        # Animation - Select Direction ↓ (animation)
         if now - self.last_update > 1000:
             self.last_update = now
             self.last_direction_index = (self.last_direction_index + 1) % len(
@@ -64,8 +83,8 @@ class Enemy:
             )
             self.last_direction = self.directions[self.last_direction_index]
 
-        # Monitor x Movment (Direction)
-        # ******** Your LEFT/RIGHT  logic here **************
+        # LEFT/RIGHT logic HERE ↓ (movment)
+
         if self.last_direction == "left":
             left_tile = get_tile_properties_enemies(
                 tmxdata,
@@ -101,7 +120,8 @@ class Enemy:
             if self.direction != "stand":
                 self.direction = "stand"
 
-        # ******** Your JUMP/FALL  logic here **************
+        # JUMP/FALL logic HERE ↓ (movment)
+
         if self.player_jump_frame > 0:  # Jumping in progress
 
             # Get Tile Above - Check for ground - Axis Y
@@ -137,14 +157,15 @@ class Enemy:
             self.y = self.y + 10
             self.direction = "land"
 
-        # Touching logic x axis
+        # Touching logic x axis HERE ↓ (collision)
+
         if self.direction == "right":
-            self.moving_x_direction = 0
-        if self.direction == "left":
             self.moving_x_direction = self.player_width
+        if self.direction == "left":
+            self.moving_x_direction = 0
 
         # Get Tile Aside - Check for solid - Axis X
-        touching = get_tile_properties_enemies(
+        self.touching = get_tile_properties_enemies(
             tmxdata, self.x, self.y + self.player_height - 10, self.game.world_offset
         )
 
@@ -162,18 +183,29 @@ class Enemy:
             2,
         )
 
-        if touching.get("id") != None:
-            pass
-            # print(touching["id"])
+        # touching
+        drawInticator(
+            window,
+            self.x + self.moving_x_direction + self.game.world_offset[0],
+            self.y + self.player_height - 10 + self.game.world_offset[1],
+            (255, 0, 255),
+        )
 
-        if touching.get("health") != None:
-            self.game.health += touching["health"]
+        if self.touching.get("id") != None:
+            pass
+            # print(self.touching["id"])
+
+        if self.touching.get("health") != None:
+            self.game.health += self.touching["health"]
             if self.game.health < 0:
                 self.game.quit = True
 
-        if touching.get("points") != None:
-            self.game.points += touching["points"]
-            if touching.get("remove") is not None and touching["remove"] == True:
+        if self.touching.get("points") != None:
+            self.game.points += self.touching["points"]
+            if (
+                self.touching.get("remove") is not None
+                and self.touching["remove"] == True
+            ):
                 tile_y = (self.y - self.game.world_offset[1] + 50) // PIXELS_IN_TILE
                 tile_x = (self.x - self.game.world_offset[0]) // PIXELS_IN_TILE
                 print(f"Tile Removed{tile_x,tile_y}")

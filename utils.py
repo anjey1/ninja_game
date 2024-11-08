@@ -66,8 +66,6 @@ def drawInticator(
     window,
     x=0,
     y=0,
-    world_offset_x=0,
-    world_offset_y=0,
     color=(255, 255, 0),
     indicatorSize=16,
 ):
@@ -77,8 +75,6 @@ def drawInticator(
         window (_type_): _description_
         x (int, optional): _description_. Defaults to 0.
         y (int, optional): _description_. Defaults to 0.
-        world_offset_x (int, optional): _description_. Defaults to 0.
-        world_offset_y (int, optional): _description_. Defaults to 0.
         color (tuple, optional): _description_. Defaults to (255, 255, 0).
         indicatorSize (int, optional): _description_. Defaults to 16.
     """
@@ -88,8 +84,8 @@ def drawInticator(
         (color),
         (
             # Where
-            x + world_offset_x,
-            y + world_offset_y,
+            x,
+            y,
             # What Size
             indicatorSize,
             indicatorSize,
