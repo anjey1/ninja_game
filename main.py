@@ -4,6 +4,7 @@ from pytmx.util_pygame import load_pygame
 from utils import blit_all_tiles, load_image, get_tile_properties
 from entities import Entity
 from enemies import Enemy
+from hud import drawHud
 
 BASE_IMG_PATH = "data/images/"
 PIXELS_IN_TILE = 32
@@ -47,7 +48,7 @@ class Game:
         self.world_offset = [0, 0]
 
         self.player = Entity(self)
-        self.enemy = Enemy(self, 1050, 149)
+        self.enemy = Enemy(self, 120, 120, ["stand", "right", "stand", "left"])
         self.enemy2 = Enemy(self, 600, 200)
         # self.player2 = Entity(self,600)
 
@@ -64,27 +65,7 @@ class Game:
             self.window.fill((3, 194, 252))
             blit_all_tiles(self.window, self.tmxdata, self.world_offset)
 
-            PLAYER_LOCATION = FONT.render(
-                f"x, y: {self.player.x, self.player.y}", 1, (255, 255, 255)
-            )
-            self.window.blit(PLAYER_LOCATION, (50, 50))
-
-            ENEMY_LOCATION = FONT.render(
-                f"Enemy x, y: {self.enemy.x, self.enemy.y}", 1, (255, 255, 255)
-            )
-            self.window.blit(ENEMY_LOCATION, (50, 70))
-
-            ENEMY_STANDING_ON = FONT.render(
-                f"Enemy Standing ON: {self.enemy.standing_on}", 1, (255, 255, 255)
-            )
-            self.window.blit(ENEMY_STANDING_ON, (50, 90))
-
-            HEALTH_HUD = FONT.render(f"health: {self.health}", 1, (255, 255, 255))
-            self.window.blit(HEALTH_HUD, (50, 30))
-
-            POINTS_HUD = FONT.render(f"points: {self.points}", 1, (255, 255, 255))
-            self.window.blit(POINTS_HUD, (50, 10))
-
+            drawHud(self.window, self.player, self.enemy, self.health, self.points)
             # ******* Proccess events **********
 
             for event in pygame.event.get():
@@ -116,8 +97,8 @@ class Game:
             self.player.update(self.tmxdata, self.window)  # window only used for debug
             self.player.render(self.tmxdata, self.window)
 
-            # self.enemy.update(self.tmxdata, self.window)
-            # self.enemy.render(self.window, self.world_offset)
+            self.enemy.update(self.tmxdata, self.window)
+            self.enemy.render(self.window, self.world_offset)
 
             self.enemy2.update(self.tmxdata, self.window)
             self.enemy2.render(self.window, self.world_offset)
