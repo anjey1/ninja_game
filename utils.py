@@ -6,6 +6,8 @@ PIXELS_IN_TILE = 32
 player_width = 50
 player_height = 70
 
+# LOADING
+
 
 # the function in charge of loading images/sprites
 def load_image(path):
@@ -30,6 +32,9 @@ def load_images(path, flip=False, img_width=player_width, img_height=player_heig
         images = [pygame.transform.flip(image, True, False) for image in images]
 
     return images
+
+
+# DRAWING
 
 
 # the function that in charge of painting data from the tmx (Tiled App)
@@ -57,8 +62,60 @@ def blit_all_tiles(window, tmxdata, world_offset):
             print(layer.tiles())
 
 
+def drawInticator(
+    window,
+    x=0,
+    y=0,
+    world_offset_x=0,
+    world_offset_y=0,
+    color=(255, 255, 0),
+    indicatorSize=16,
+):
+    """_summary_
+
+    Args:
+        window (_type_): _description_
+        x (int, optional): _description_. Defaults to 0.
+        y (int, optional): _description_. Defaults to 0.
+        world_offset_x (int, optional): _description_. Defaults to 0.
+        world_offset_y (int, optional): _description_. Defaults to 0.
+        color (tuple, optional): _description_. Defaults to (255, 255, 0).
+        indicatorSize (int, optional): _description_. Defaults to 16.
+    """
+
+    pygame.draw.rect(
+        window,
+        (color),
+        (
+            # Where
+            x + world_offset_x,
+            y + world_offset_y,
+            # What Size
+            indicatorSize,
+            indicatorSize,
+        ),
+        2,
+    )
+
+
+# Sampeling Map - Get Props of tile
+
+
 # the function that in charge of getting data from the tmx (Tiled App)
 def get_tile_properties(tmxdata, x, y, world_offset):
+    """Get tile properties for player instances\n
+        Remmember the great tale about the world offset\n
+        He who shifts the screen
+
+    Args:
+        tmxdata (tmxdata): tmx map json of numbers
+        x (int): x player location
+        y (int): y player location
+        world_offset (int[]): world_offset [x=50,y=30]
+
+    Returns:
+        dict: {"climable": 0,"ground": 0,"health": 0,"points": 0,"provides": "","requires": "","solid": 0}
+    """
     world_x = x - world_offset[0]
     world_y = y - world_offset[1]
     tile_x = world_x // PIXELS_IN_TILE  # pixels in tile
@@ -97,6 +154,19 @@ def get_tile_properties(tmxdata, x, y, world_offset):
 
 # the function that in charge of getting data from the tmx (Tiled App)
 def get_tile_properties_enemies(tmxdata, x, y, world_offset):
+    """Get tile properties for enemies instances\n
+    Remmember the great tale about the world offset\n
+    He who shifts the screen
+
+    Args:
+        tmxdata (tmxdata): tmx map json of numbers
+        x (int): x enemy location
+        y (int): y enemy location
+        world_offset (int[]): world_offset [x=50,y=30]
+
+    Returns:
+        dict: {"climable": 0,"ground": 0,"health": 0,"points": 0,"provides": "","requires": "","solid": 0}
+    """
     world_x = x
     world_y = y
     tile_x = world_x // PIXELS_IN_TILE  # pixels in tile
