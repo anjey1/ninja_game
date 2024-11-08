@@ -46,6 +46,7 @@ class Enemy:
         self.direction = "stand"
         self.standing_on = None
         self.touching = None
+        self.ray_casting = None
 
     def update(self, tmxdata, window):
 
@@ -60,7 +61,7 @@ class Enemy:
         # -----
 
         # Stanging On Logic HERE ↓ (collision)
-        self.standing_on = standing_on = get_tile_properties_enemies(
+        self.standing_on = get_tile_properties_enemies(
             tmxdata,
             self.x + int(self.player_width / 2),
             self.y + self.player_height,
@@ -68,9 +69,25 @@ class Enemy:
         )
 
         # standing
+        # drawInticator(
+        #     window,
+        #     self.x + int(self.player_width / 2) + self.game.world_offset[0],
+        #     self.y + self.player_height + self.game.world_offset[1],
+        #     (255, 0, 255),
+        # )
+
+        # Ray Casting Logic HERE ↓ (collision)
+        self.ray_casting = get_tile_properties_enemies(
+            tmxdata,
+            self.x + self.moving_x_direction,
+            self.y + self.player_height,
+            self.game.world_offset,
+        )
+
+        # ray_casting
         drawInticator(
             window,
-            self.x + int(self.player_width / 2) + self.game.world_offset[0],
+            self.x + self.moving_x_direction + self.game.world_offset[0],
             self.y + self.player_height + self.game.world_offset[1],
             (255, 0, 255),
         )
@@ -82,39 +99,41 @@ class Enemy:
                 self.directions
             )
             self.last_direction = self.directions[self.last_direction_index]
+            self.ray_casting = {"ground": 1}  # TODO: use the default array from utils
 
-        # LEFT/RIGHT logic HERE ↓ (movment)
+        # LEFT/RIGHT logic HERE ↓ (collision)
 
-        if self.last_direction == "left":
-            left_tile = get_tile_properties_enemies(
-                tmxdata,
-                self.x,  # - LR_MOVMENT_OFFSET
-                self.y + self.player_height - 16,
-                self.game.world_offset,
-            )  # center middle +10 on x
+        if self.ray_casting["ground"] != 0:
+            if self.last_direction == "left":
+                left_tile = get_tile_properties_enemies(
+                    tmxdata,
+                    self.x,  # - LR_MOVMENT_OFFSET
+                    self.y + self.player_height - 16,
+                    self.game.world_offset,
+                )  # center middle +10 on x
 
-            if left_tile["solid"] == 0:
-                self.x = self.x - 15
-                self.LAST_DIRECTION = self.direction = "left"
+                if left_tile["solid"] == 0:
+                    self.x = self.x - 15
+                    self.LAST_DIRECTION = self.direction = "left"
 
-        if self.last_direction == "right":
-            right_tile = get_tile_properties_enemies(
-                tmxdata,
-                self.x + self.player_width,  # - LR_MOVMENT_OFFSET
-                self.y + self.player_height - 16,
-                self.game.world_offset,
-            )  # center middle +10 on x
+            if self.last_direction == "right":
+                right_tile = get_tile_properties_enemies(
+                    tmxdata,
+                    self.x + self.player_width,  # - LR_MOVMENT_OFFSET
+                    self.y + self.player_height - 16,
+                    self.game.world_offset,
+                )  # center middle +10 on x
 
-            if right_tile["solid"] == 0:
-                self.x = self.x + 15
-                self.LAST_DIRECTION = self.direction = "right"
+                if right_tile["solid"] == 0:
+                    self.x = self.x + 15
+                    self.LAST_DIRECTION = self.direction = "right"
 
-        # if keypressed[ord("w")]:
-        #     if standing_on["ground"] == 1:
-        #         self.player_jump_frame = 40
+            # if keypressed[ord("w")]:
+            #     if self.standing_on["ground"] == 1:
+            #         self.player_jump_frame = 40
 
-        # if keypressed[ord("s")]:
-        #     pass
+            # if keypressed[ord("s")]:
+            #     pass
 
         if self.last_direction == "stand":  # No key is pressed
             if self.direction != "stand":
@@ -153,7 +172,7 @@ class Enemy:
             else:
                 self.player_jump_frame = 0
 
-        elif standing_on["ground"] == 0:
+        elif self.standing_on["ground"] == 0:
             self.y = self.y + 10
             self.direction = "land"
 
@@ -166,9 +185,10 @@ class Enemy:
 
         # Get Tile Aside - Check for solid - Axis X
         self.touching = get_tile_properties_enemies(
-            tmxdata, self.x, self.y + self.player_height - 10, self.game.world_offset
+            tmxdata, self.x, self.y + self.player_height - 20, self.game.world_offset
         )
 
+        # ememy object
         pygame.draw.rect(
             window,
             (0, 0, 255),
@@ -187,7 +207,7 @@ class Enemy:
         drawInticator(
             window,
             self.x + self.moving_x_direction + self.game.world_offset[0],
-            self.y + self.player_height - 10 + self.game.world_offset[1],
+            self.y + self.player_height - 20 + self.game.world_offset[1],
             (255, 0, 255),
         )
 
