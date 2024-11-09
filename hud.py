@@ -9,15 +9,6 @@ FONT = pygame.font.SysFont("Arial", 18)
 def drawHud(
     window: pygame.Surface, player: Entity, enemy: Enemy, health: int = 0, points=0
 ):
-    """Draws game hood
-
-    Args:
-        window (pygame.Surface): _description_
-        player (Entity): _description_
-        enemy (Enemy): _description_
-        health (int, optional): _description_. Defaults to 0.
-        points (int, optional): _description_. Defaults to 0.
-    """
 
     POINTS_HUD = FONT.render(f"points: {points}", 1, (255, 255, 255))
     window.blit(POINTS_HUD, (50, 10))
