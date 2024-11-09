@@ -4,7 +4,7 @@ from utils import get_tile_properties_enemies, load_images, drawInticator
 PIXELS_IN_TILE = 32
 
 
-class Enemy:
+class Enemy(pygame.sprite.Sprite):
     def __init__(
         self, game, x=400, y=200, directions=["stand", "left", "stand", "right"]
     ):
@@ -16,6 +16,7 @@ class Enemy:
             y (int, optional): _description_. Defaults to 200.
             directions (list, optional): _description_. Defaults to ["stand", "left", "stand", "right"].
         """
+        super().__init__()
         self.player_width = 50
         self.player_height = 70
         self.x = x
@@ -47,6 +48,10 @@ class Enemy:
         self.standing_on = None
         self.touching = None
         self.ray_casting = None
+
+        self.image = pygame.Surface((self.player_width, self.player_height))
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.x, self.y)
 
     def update(self, tmxdata, window):
 
@@ -230,6 +235,11 @@ class Enemy:
                 tile_x = (self.x - self.game.world_offset[0]) // PIXELS_IN_TILE
                 print(f"Tile Removed{tile_x,tile_y}")
                 tmxdata.layers[0].data[tile_y][tile_x] = 0
+
+        self.rect.center = (
+            self.x + self.game.world_offset[0],
+            self.y + self.game.world_offset[1],
+        )
 
     def render(self, window, world_offset):
         # Draw the player with offset - not to move with window

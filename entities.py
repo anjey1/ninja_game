@@ -5,7 +5,7 @@ from utils import get_tile_properties, load_images, drawInticator
 PIXELS_IN_TILE = 32
 
 
-class Entity:
+class Entity(pygame.sprite.Sprite):
     def __init__(self, game, x=400, y=200):
         """Player Object
 
@@ -14,6 +14,7 @@ class Entity:
             x (int, optional): Initital X position. Defaults to 400.
             y (int, optional): Initital Y position. Defaults to 200.
         """
+        super().__init__()  # init sprite parent class for collisions
         self.player_width = 50
         self.player_height = 70
         self.x = x
@@ -37,6 +38,10 @@ class Entity:
 
         # Maintain our direction
         self.direction = "stand"
+
+        self.image = pygame.Surface((self.player_width, self.player_height))
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.x, self.y)
 
     def update(self, tmxdata, window: pygame.Surface):
 
@@ -163,16 +168,18 @@ class Entity:
                 tile_x = (self.x - self.game.world_offset[0]) // PIXELS_IN_TILE
                 print(f"Tile Removed{tile_x,tile_y}")
                 tmxdata.layers[0].data[tile_y][tile_x] = 0
-        
+
         if touching.get("teleport") != None:
             if self.game.current_map_verbose == "map":
                 self.game.tmxdata = load_pygame(self.game.location_maps["cave"])
                 self.game.current_map_verbose = "cave"
-                
+
             else:
                 self.game.tmxdata = load_pygame(self.game.location_maps["map"])
                 self.game.current_map_verbose = "map"
 
+        # Add rectangle for collisions - maybe there is a better way to handle collisions
+        self.rect.center = (self.x, self.y)
 
     def render(self, tmxdata, window):
         # Draw the player

@@ -1,7 +1,7 @@
 import pygame, time, random
 from pygame.locals import *
 from pytmx.util_pygame import load_pygame
-from utils import blit_all_tiles, load_image, get_tile_properties
+from utils import blit_all_tiles, update_enemies
 from entities import Entity
 from enemies import Enemy
 from hud import drawHud
@@ -46,11 +46,21 @@ class Game:
 
         # change from camera original setting (x,y)
         self.world_offset = [0, 0]
+        self.enemies_group = []
+        # self.animations_group = pygame.sprite.Group()
 
         self.player = Entity(self)
         self.enemy = Enemy(self, 120, 120, ["stand", "right", "stand", "left"])
         self.enemy2 = Enemy(self, 600, 200)
         # self.player2 = Entity(self,600)
+
+        self.player_group = pygame.sprite.GroupSingle(self.player)
+
+        self.enemy: Enemy = Enemy(self, 1050, 149)
+        self.enemy2: Enemy = Enemy(self, 600, 200)
+
+        self.enemies_group.append(self.enemy)
+        self.enemies_group.append(self.enemy2)
 
     def main(self):
         self.tmxdata = load_pygame(self.current_map_path)
@@ -65,7 +75,7 @@ class Game:
             self.window.fill((3, 194, 252))
             blit_all_tiles(self.window, self.tmxdata, self.world_offset)
 
-            drawHud(self.window, self.player, self.enemy, self.health, self.points)
+            drawHud(self.window, self.player, self.enemy2, self.health, self.points)
             # ******* Proccess events **********
 
             for event in pygame.event.get():
@@ -97,11 +107,19 @@ class Game:
             self.player.update(self.tmxdata, self.window)  # window only used for debug
             self.player.render(self.tmxdata, self.window)
 
-            self.enemy.update(self.tmxdata, self.window)
-            self.enemy.render(self.window, self.world_offset)
+            update_enemies(self, self.tmxdata, self.window, self.world_offset)
+            # self.enemy.update(self.tmxdata, self.window)
+            # self.enemy.render(self.window, self.world_offset)
 
-            self.enemy2.update(self.tmxdata, self.window)
-            self.enemy2.render(self.window, self.world_offset)
+            # self.enemy2.update(self.tmxdata, self.window)
+            # self.enemy2.render(self.window, self.world_offset)
+
+            enemy_index = self.player.rect.collidelist(self.enemies_group)
+            if enemy_index >= 0:
+                enemy = self.enemies_group[enemy_index]
+                print(f"enemy {enemy_index} : rect {enemy.rect}")
+                print(f"colided with enemy {enemy_index}")
+                print(f"player rect {self.player.rect}")
 
             # self.player2.update(self.tmxdata, self.window)
             # self.player2.render(self.tmxdata, self.window)

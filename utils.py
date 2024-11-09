@@ -195,3 +195,9 @@ def get_tile_properties_enemies(tmxdata, x, y, world_offset):
             "solid": 0,
         }
     return properties
+
+
+def update_enemies(game, tmxdata, window, world_offset):
+    for enemy in game.enemies_group:
+        enemy.update(tmxdata, window)
+        enemy.render(window, world_offset)
