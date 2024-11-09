@@ -1,13 +1,19 @@
 import pygame
-from pygame.image import load
 from pytmx.util_pygame import load_pygame
-from utils import get_tile_properties, load_image, load_images
+from utils import get_tile_properties, load_images, drawInticator
 
 PIXELS_IN_TILE = 32
 
 
 class Entity:
     def __init__(self, game, x=400, y=200):
+        """Player Object
+
+        Args:
+            game (_type_): _description_
+            x (int, optional): Initital X position. Defaults to 400.
+            y (int, optional): Initital Y position. Defaults to 200.
+        """
         self.player_width = 50
         self.player_height = 70
         self.x = x
@@ -32,7 +38,7 @@ class Entity:
         # Maintain our direction
         self.direction = "stand"
 
-    def update(self, tmxdata, window):
+    def update(self, tmxdata, window: pygame.Surface):
 
         keypressed = pygame.key.get_pressed()
 
@@ -49,6 +55,13 @@ class Entity:
             self.x + int(self.player_width / 2),
             self.y + self.player_height,
             self.game.world_offset,
+        )
+
+        drawInticator(
+            window,
+            self.x + int(self.player_width / 2),
+            self.y + self.player_height,
+            (255, 0, 255),
         )
 
         # Monitor x Movment (Direction)
@@ -77,7 +90,7 @@ class Entity:
                 self.x = self.x + 30
                 self.LAST_DIRECTION = self.direction = "right"
 
-        if keypressed[ord("w")]:
+        if keypressed[ord(" ")]:
             if standing_on["ground"] == 1:
                 self.player_jump_frame = 40
 
@@ -96,20 +109,6 @@ class Entity:
                 self.x + int(self.player_width / 2),
                 self.y + int(self.player_height / 2),
                 self.game.world_offset,
-            )
-
-            pygame.draw.rect(
-                window,
-                (255, 0, 0),
-                (
-                    # Where
-                    self.x,
-                    self.y,
-                    # What
-                    self.player_width,
-                    self.player_height,
-                ),
-                2,
             )
 
             if above_tile["ground"] == 0:
@@ -140,7 +139,7 @@ class Entity:
             (
                 # Where
                 self.x,
-                self.y - 10,
+                self.y,
                 # What
                 self.player_width,
                 self.player_height,
