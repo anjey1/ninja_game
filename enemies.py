@@ -8,6 +8,8 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(
         self, game, x=400, y=200, directions=["stand", "left", "stand", "right"]
     ):
+        from main import Game
+
         """Enemy Object
 
         Args:
@@ -21,7 +23,8 @@ class Enemy(pygame.sprite.Sprite):
         self.player_height = 70
         self.x = x
         self.y = y
-        self.game = game
+        self.game: Game = game
+        self.health = 100
         self.moving_x_direction = 0
         self.assets = {
             "player_stand": load_images("entities/player/idle"),
@@ -35,6 +38,7 @@ class Enemy(pygame.sprite.Sprite):
         self.last_update = pygame.time.get_ticks()
         self.last_direction_index = 0
         self.last_direction = "stand"
+        self.group_index = 0
 
         self.player_stand_frame = 0
         self.player_right_frame = 0
@@ -296,3 +300,8 @@ class Enemy(pygame.sprite.Sprite):
                 self.player_stand_frame = (self.player_stand_frame + 1) % len(
                     self.assets["player_stand"]
                 )
+
+    def takeDamage(self, damage: int = 10):
+        self.health -= damage
+        if self.game.health < 0:
+            self.game.enemies_group.pop(self.group_index)

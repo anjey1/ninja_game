@@ -1,12 +1,15 @@
 import pygame
 from pytmx.util_pygame import load_pygame
 from utils import get_tile_properties, load_images, drawInticator
+from weapons import Sword
 
 PIXELS_IN_TILE = 32
 
 
 class Entity(pygame.sprite.Sprite):
     def __init__(self, game, x=400, y=200):
+        from main import Game
+
         """Player Object
 
         Args:
@@ -19,7 +22,7 @@ class Entity(pygame.sprite.Sprite):
         self.player_height = 70
         self.x = x
         self.y = y
-        self.game = game
+        self.game: Game = game
         self.moving_x_direction = 0
         self.assets = {
             "player_stand": load_images("entities/player/idle"),
@@ -28,6 +31,13 @@ class Entity(pygame.sprite.Sprite):
             "player_right": load_images("entities/player/run"),
             "player_left": load_images("entities/player/run", True),
         }
+
+        # Add rectangle for collisions - maybe there is a better way to handle collisions
+        self.image = pygame.Surface((self.player_width, self.player_height))
+        self.rect = self.image.get_rect()
+
+        # Adding the sword as an attribute
+        self.sword = Sword(self)
 
         self.player_stand_frame = 0
         self.player_right_frame = 0
@@ -58,7 +68,7 @@ class Entity(pygame.sprite.Sprite):
         standing_on = get_tile_properties(
             tmxdata,
             self.x + int(self.player_width / 2),
-            self.y + self.player_height,
+            self.y + self.player_height + 2,
             self.game.world_offset,
         )
 
@@ -191,8 +201,11 @@ class Entity(pygame.sprite.Sprite):
                 self.game.tmxdata = load_pygame(self.game.location_maps["map"])
                 self.game.current_map_verbose = "map"
 
-        # Add rectangle for collisions - maybe there is a better way to handle collisions
+        # Update rect location
         self.rect.center = (self.x, self.y)
+
+        # Update the sword position to follow the player
+        self.sword.update_position()
 
     def render(self, tmxdata, window):
         # Draw the player
@@ -251,3 +264,13 @@ class Entity(pygame.sprite.Sprite):
                 self.player_stand_frame = (self.player_stand_frame + 1) % len(
                     self.assets["player_stand"]
                 )
+
+        # Sword
+        window.blit(
+            pygame.transform.flip(
+                self.sword.image,
+                True,
+                False,
+            ),
+            (self.sword.rect.x, self.sword.rect.y),
+        )

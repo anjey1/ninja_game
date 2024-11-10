@@ -41,8 +41,9 @@ class Game:
         self.clock = pygame.time.Clock()
 
         self.x = 400
-        self.y_ground = self.window.get_height() - 234  # 640-234
-        self.y = self.y_ground
+
+        # Horizon
+        self.y = self.window.get_height() - 234  # 640-234
 
         # change from camera original setting (x,y)
         self.world_offset = [0, 0]
@@ -60,13 +61,16 @@ class Game:
         self.enemy2: Enemy = Enemy(self, 600, 200)
 
         self.enemies_group.append(self.enemy)
+        # Add group position index for future deletion
+        self.enemy.group_index = len(self.enemies_group) - 1
+
         self.enemies_group.append(self.enemy2)
+        self.enemy.group_index = len(self.enemies_group) - 1
 
     def main(self):
         self.tmxdata = load_pygame(self.current_map_path)
         self.quit = False
-        # x = 400
-        # y = y_ground
+
         self.health = HEALTH
         self.points = POINTS
 
@@ -114,12 +118,14 @@ class Game:
             # self.enemy2.update(self.tmxdata, self.window)
             # self.enemy2.render(self.window, self.world_offset)
 
-            enemy_index = self.player.rect.collidelist(self.enemies_group)
+            enemy_index = self.player.sword.rect.collidelist(self.enemies_group)
+
             if enemy_index >= 0:
-                enemy = self.enemies_group[enemy_index]
+                enemy: Enemy = self.enemies_group[enemy_index]
+                enemy.takeDamage(50)
                 print(f"enemy {enemy_index} : rect {enemy.rect}")
                 print(f"colided with enemy {enemy_index}")
-                print(f"player rect {self.player.rect}")
+                print(f"sword rect {self.player.sword.rect}")
 
             # self.player2.update(self.tmxdata, self.window)
             # self.player2.render(self.tmxdata, self.window)
