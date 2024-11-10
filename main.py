@@ -1,7 +1,7 @@
 import pygame, time, random
 from pygame.locals import *
 from pytmx.util_pygame import load_pygame
-from utils import blit_all_tiles, update_enemies
+from utils import blit_all_tiles, moveWindow, update_enemies
 from entities import Entity
 from enemies import Enemy
 from hud import drawHud
@@ -87,25 +87,16 @@ class Game:
                 if event.type == QUIT:
                     self.quit = True
 
-            # World Moves - Handle world offset
-            # print(f"{self.player.y,self.player.x}")
-            if self.player.y < 134:
-                self.player.y = 134
-                self.world_offset[1] += 10
-
-            if self.player.y > self.y_ground:
-                self.player.y = self.y_ground
-                self.world_offset[1] -= 10
-
-            if self.player.x < 340:
-                self.player.x = 340
-                self.world_offset[0] += 10
-
-            if self.player.x > self.window.get_width() - 340 - 50:
-                self.player.x = self.window.get_width() - 340 - 50
-                self.world_offset[0] -= 10
+            moveWindow(self, self.window, self.player)
 
             # ************** Update screen ****************
+
+            # USE - pygame.sprite.Group.draw(self.active_sprites, self.gameboard)
+            # to draw all groups
+
+            # Для правильной работы функции pygame.sprite.Group.draw
+            # self.rect = self.image.get_rect()
+            # self.rect.center = pos
 
             # enemy calculated without world offset and printed with
             self.player.update(self.tmxdata, self.window)  # window only used for debug

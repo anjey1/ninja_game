@@ -201,3 +201,23 @@ def update_enemies(game, tmxdata, window, world_offset):
     for enemy in game.enemies_group:
         enemy.update(tmxdata, window)
         enemy.render(window, world_offset)
+
+
+def moveWindow(game, window, player):
+    # World Moves - Handle world offset
+    # print(f"{self.player.y,self.player.x}")
+    if player.y < 134:
+        player.y = 134
+        game.world_offset[1] += 10
+
+    if player.y > game.y:
+        player.y = game.y
+        game.world_offset[1] -= 10
+
+    if player.x < 340:
+        player.x = 340
+        game.world_offset[0] += 10
+
+    if player.x > window.get_width() - 340 - 50:
+        player.x = window.get_width() - 340 - 50
+        game.world_offset[0] -= 10
