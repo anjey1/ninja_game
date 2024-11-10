@@ -62,6 +62,7 @@ class Entity(pygame.sprite.Sprite):
             self.game.world_offset,
         )
 
+        # standing on
         drawInticator(
             window,
             self.x + int(self.player_width / 2),
@@ -106,6 +107,7 @@ class Entity(pygame.sprite.Sprite):
                 self.direction = "stand"
 
         # ******** Your JUMP/FALL  logic here **************
+        # Understand how landing works... something there
         if self.player_jump_frame > 0:  # Jumping in progresss
 
             # Get Tile Above - Check for ground - Axis Y
@@ -129,13 +131,24 @@ class Entity(pygame.sprite.Sprite):
 
         # Touching logic x axis
         if self.direction == "right":
-            self.moving_x_direction = 0
-        if self.direction == "left":
             self.moving_x_direction = self.player_width
+        if self.direction == "left":
+            self.moving_x_direction = 0
 
         # Get Tile Aside - Check for solid - Axis X
         touching = get_tile_properties(
-            tmxdata, self.x, self.y + self.player_height - 10, self.game.world_offset
+            tmxdata,
+            self.x + self.moving_x_direction,
+            self.y + self.player_height - 10,
+            self.game.world_offset,
+        )
+
+        # touching
+        drawInticator(
+            window,
+            self.x + self.moving_x_direction,
+            self.y + self.player_height - 10,
+            (255, 0, 255),
         )
 
         pygame.draw.rect(
