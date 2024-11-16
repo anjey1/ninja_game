@@ -1,12 +1,15 @@
 import pygame
 from pytmx.util_pygame import load_pygame
 from utils import get_tile_properties, load_images, drawInticator
+from weapons import Sword
 
 PIXELS_IN_TILE = 32
 
 
-class Entity:
+class Entity(pygame.sprite.Sprite):
     def __init__(self, game, x=400, y=200):
+        from main import Game
+
         """Player Object
 
         Args:
@@ -14,11 +17,12 @@ class Entity:
             x (int, optional): Initital X position. Defaults to 400.
             y (int, optional): Initital Y position. Defaults to 200.
         """
+        super().__init__()  # init sprite parent class for collisions
         self.player_width = 50
         self.player_height = 70
         self.x = x
         self.y = y
-        self.game = game
+        self.game: Game = game
         self.moving_x_direction = 0
         self.assets = {
             "player_stand": load_images("entities/player/idle"),
@@ -27,6 +31,13 @@ class Entity:
             "player_right": load_images("entities/player/run"),
             "player_left": load_images("entities/player/run", True),
         }
+
+        # Add rectangle for collisions - maybe there is a better way to handle collisions
+        self.image = pygame.Surface((self.player_width, self.player_height))
+        self.rect = self.image.get_rect()
+
+        # Adding the sword as an attribute
+        self.sword = Sword(self)
 
         self.player_stand_frame = 0
         self.player_right_frame = 0
@@ -37,6 +48,10 @@ class Entity:
 
         # Maintain our direction
         self.direction = "stand"
+
+        self.image = pygame.Surface((self.player_width, self.player_height))
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.x, self.y)
 
     def update(self, tmxdata, window: pygame.Surface):
 
@@ -53,10 +68,11 @@ class Entity:
         standing_on = get_tile_properties(
             tmxdata,
             self.x + int(self.player_width / 2),
-            self.y + self.player_height,
+            self.y + self.player_height + 2,
             self.game.world_offset,
         )
 
+        # standing on
         drawInticator(
             window,
             self.x + int(self.player_width / 2),
@@ -101,6 +117,7 @@ class Entity:
                 self.direction = "stand"
 
         # ******** Your JUMP/FALL  logic here **************
+        # Understand how landing works... something there
         if self.player_jump_frame > 0:  # Jumping in progresss
 
             # Get Tile Above - Check for ground - Axis Y
@@ -124,13 +141,24 @@ class Entity:
 
         # Touching logic x axis
         if self.direction == "right":
-            self.moving_x_direction = 0
-        if self.direction == "left":
             self.moving_x_direction = self.player_width
+        if self.direction == "left":
+            self.moving_x_direction = 0
 
         # Get Tile Aside - Check for solid - Axis X
         touching = get_tile_properties(
-            tmxdata, self.x, self.y + self.player_height - 10, self.game.world_offset
+            tmxdata,
+            self.x + self.moving_x_direction,
+            self.y + self.player_height - 10,
+            self.game.world_offset,
+        )
+
+        # touching
+        drawInticator(
+            window,
+            self.x + self.moving_x_direction,
+            self.y + self.player_height - 10,
+            (255, 0, 255),
         )
 
         pygame.draw.rect(
@@ -163,16 +191,21 @@ class Entity:
                 tile_x = (self.x - self.game.world_offset[0]) // PIXELS_IN_TILE
                 print(f"Tile Removed{tile_x,tile_y}")
                 tmxdata.layers[0].data[tile_y][tile_x] = 0
-        
+
         if touching.get("teleport") != None:
             if self.game.current_map_verbose == "map":
                 self.game.tmxdata = load_pygame(self.game.location_maps["cave"])
                 self.game.current_map_verbose = "cave"
-                
+
             else:
                 self.game.tmxdata = load_pygame(self.game.location_maps["map"])
                 self.game.current_map_verbose = "map"
 
+        # Update rect location
+        self.rect.center = (self.x, self.y)
+
+        # Update the sword position to follow the player
+        self.sword.update_position()
 
     def render(self, tmxdata, window):
         # Draw the player
@@ -231,3 +264,13 @@ class Entity:
                 self.player_stand_frame = (self.player_stand_frame + 1) % len(
                     self.assets["player_stand"]
                 )
+
+        # Sword
+        window.blit(
+            pygame.transform.flip(
+                self.sword.image,
+                True,
+                False,
+            ),
+            (self.sword.rect.x, self.sword.rect.y),
+        )

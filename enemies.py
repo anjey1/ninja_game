@@ -4,10 +4,12 @@ from utils import get_tile_properties_enemies, load_images, drawInticator
 PIXELS_IN_TILE = 32
 
 
-class Enemy:
+class Enemy(pygame.sprite.Sprite):
     def __init__(
         self, game, x=400, y=200, directions=["stand", "left", "stand", "right"]
     ):
+        from main import Game
+
         """Enemy Object
 
         Args:
@@ -16,11 +18,14 @@ class Enemy:
             y (int, optional): _description_. Defaults to 200.
             directions (list, optional): _description_. Defaults to ["stand", "left", "stand", "right"].
         """
+        super().__init__()
         self.player_width = 50
         self.player_height = 70
         self.x = x
         self.y = y
-        self.game = game
+        self.is_alive = True
+        self.game: Game = game
+        self.health = 100
         self.moving_x_direction = 0
         self.assets = {
             "player_stand": load_images("entities/player/idle"),
@@ -34,6 +39,7 @@ class Enemy:
         self.last_update = pygame.time.get_ticks()
         self.last_direction_index = 0
         self.last_direction = "stand"
+        self.group_index = 0
 
         self.player_stand_frame = 0
         self.player_right_frame = 0
@@ -47,6 +53,10 @@ class Enemy:
         self.standing_on = None
         self.touching = None
         self.ray_casting = None
+
+        self.image = pygame.Surface((self.player_width, self.player_height))
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.x, self.y)
 
     def update(self, tmxdata, window):
 
@@ -231,6 +241,11 @@ class Enemy:
                 print(f"Tile Removed{tile_x,tile_y}")
                 tmxdata.layers[0].data[tile_y][tile_x] = 0
 
+        self.rect.center = (
+            self.x + self.game.world_offset[0],
+            self.y + self.game.world_offset[1],
+        )
+
     def render(self, window, world_offset):
         # Draw the player with offset - not to move with window
         x = self.x + world_offset[0]
@@ -286,3 +301,11 @@ class Enemy:
                 self.player_stand_frame = (self.player_stand_frame + 1) % len(
                     self.assets["player_stand"]
                 )
+
+    def takeDamage(self, damage: int = 10):
+        self.health -= damage
+        if self.health < 0:
+            self.is_alive = False
+            enemy_in_group = self.game.enemies_group[self.group_index]
+            enemy_in_group.rect.x = 0
+            enemy_in_group.rect.y = 0
