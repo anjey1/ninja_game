@@ -23,6 +23,7 @@ class Enemy(pygame.sprite.Sprite):
         self.player_height = 70
         self.x = x
         self.y = y
+        self.is_alive = True
         self.game: Game = game
         self.health = 100
         self.moving_x_direction = 0
@@ -303,5 +304,8 @@ class Enemy(pygame.sprite.Sprite):
 
     def takeDamage(self, damage: int = 10):
         self.health -= damage
-        if self.game.health < 0:
-            self.game.enemies_group.pop(self.group_index)
+        if self.health < 0:
+            self.is_alive = False
+            enemy_in_group = self.game.enemies_group[self.group_index]
+            enemy_in_group.rect.x = 0
+            enemy_in_group.rect.y = 0

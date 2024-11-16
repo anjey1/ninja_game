@@ -199,8 +199,9 @@ def get_tile_properties_enemies(tmxdata, x, y, world_offset):
 
 def update_enemies(game, tmxdata, window, world_offset):
     for enemy in game.enemies_group:
-        enemy.update(tmxdata, window)
-        enemy.render(window, world_offset)
+        if enemy.is_alive:
+            enemy.update(tmxdata, window)
+            enemy.render(window, world_offset)
 
 
 def moveWindow(game, window, player):

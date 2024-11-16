@@ -57,7 +57,7 @@ class Game:
 
         self.player_group = pygame.sprite.GroupSingle(self.player)
 
-        self.enemy: Enemy = Enemy(self, 1050, 149)
+        # self.enemy: Enemy = Enemy(self, 1050, 149)
         self.enemy2: Enemy = Enemy(self, 600, 200)
 
         self.enemies_group.append(self.enemy)
