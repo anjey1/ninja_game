@@ -205,7 +205,7 @@ class Entity(pygame.sprite.Sprite):
         self.rect.center = (self.x, self.y)
 
         # Update the sword position to follow the player
-        self.sword.update_position()
+        self.sword.update_position(self.direction)
 
     def render(self, tmxdata, window):
         # Draw the player
@@ -266,6 +266,10 @@ class Entity(pygame.sprite.Sprite):
                 )
 
         # Sword
+        # self.sword.image = pygame.transform.rotate(
+        #     self.sword.image, self.sword.current_angle
+        # )  # Rotate by 45 degrees
+
         window.blit(
             pygame.transform.flip(
                 self.sword.image,

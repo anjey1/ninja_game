@@ -304,8 +304,8 @@ class Enemy(pygame.sprite.Sprite):
 
     def takeDamage(self, damage: int = 10):
         self.health -= damage
-        if self.health < 0:
+        if self.health < 0 and self.is_alive == True:
             self.is_alive = False
             enemy_in_group = self.game.enemies_group[self.group_index]
-            enemy_in_group.rect.x = 0
-            enemy_in_group.rect.y = 0
+            enemy_in_group.rect.x = enemy_in_group.x = 0
+            enemy_in_group.rect.y = enemy_in_group.y = 0
