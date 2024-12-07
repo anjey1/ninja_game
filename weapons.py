@@ -11,9 +11,11 @@ class Sword(pygame.sprite.Sprite):
         # self.image.fill((150, 75, 0))  # Brown color for the sword
         self.current_angle = 45
         self.direction = 1
+        self.width = 30
+        self.height = 60
 
         self.image = load_image("sword3.png")
-        self.image = pygame.transform.scale(self.image, (30, 60))
+        self.image = pygame.transform.scale(self.image, (self.width, self.height))
         self.image = pygame.transform.rotate(
             self.image, -self.current_angle
         )  # Rotate by 45 degrees
