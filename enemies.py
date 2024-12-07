@@ -188,17 +188,21 @@ class Enemy(pygame.sprite.Sprite):
 
         # Touching logic x axis HERE ↓ (collision)
 
+        touchingX = self.x + self.moving_x_direction
+        touchingY = self.y + self.player_height - 20
+
         if self.direction == "right":
             self.moving_x_direction = self.player_width
         if self.direction == "left":
             self.moving_x_direction = 0
 
         # Get Tile Aside - Check for solid - Axis X
+        # Getting corrent tile using touchingX, touchingY without world offset
         self.touching = get_tile_properties_enemies(
-            tmxdata, self.x, self.y + self.player_height - 20, self.game.world_offset
+            tmxdata, touchingX, touchingY, self.game.world_offset
         )
 
-        # ememy object
+        # ememy object top corner - self.x
         pygame.draw.rect(
             window,
             (0, 0, 255),
@@ -213,12 +217,13 @@ class Enemy(pygame.sprite.Sprite):
             2,
         )
 
-        # touching
+        # touching down - using touchingY + movment
+        # render -> x = self.x + world_offset[0]
         drawInticator(
             window,
-            self.x + self.moving_x_direction + self.game.world_offset[0],
-            self.y + self.player_height - 20 + self.game.world_offset[1],
-            (255, 0, 255),
+            touchingX + self.game.world_offset[0],
+            touchingY + self.game.world_offset[1],
+            (128, 128, 128),
         )
 
         if self.touching.get("id") != None:
@@ -236,8 +241,9 @@ class Enemy(pygame.sprite.Sprite):
                 self.touching.get("remove") is not None
                 and self.touching["remove"] == True
             ):
-                tile_y = (self.y - self.game.world_offset[1] + 50) // PIXELS_IN_TILE
-                tile_x = (self.x - self.game.world_offset[0]) // PIXELS_IN_TILE
+                # Getting corrent tile using touchingX, touchingY without world offset
+                tile_x = (touchingX) // PIXELS_IN_TILE
+                tile_y = (touchingY) // PIXELS_IN_TILE
                 print(f"Tile Removed{tile_x,tile_y}")
                 tmxdata.layers[0].data[tile_y][tile_x] = 0
 
