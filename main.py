@@ -51,21 +51,25 @@ class Game:
         # self.animations_group = pygame.sprite.Group()
 
         self.player = Entity(self)
-        self.enemy = Enemy(self, 120, 120, ["stand", "right", "stand", "left"])
-        self.enemy2 = Enemy(self, 600, 200)
+        self.enemy: Enemy = Enemy(self, 120, 120, ["stand", "right", "stand", "left"])
+        self.enemy2: Enemy = Enemy(self, 600, 200)
+        self.enemy3: Enemy = Enemy(self, 300, 200)
         # self.player2 = Entity(self,600)
 
         self.player_group = pygame.sprite.GroupSingle(self.player)
 
         # self.enemy: Enemy = Enemy(self, 1050, 149)
-        self.enemy2: Enemy = Enemy(self, 600, 200)
-
-        self.enemies_group.append(self.enemy)
+        # self.enemy2: Enemy = Enemy(self, 600, 200)
+        self.enemy.__name__ = "Random Enemy"
+        self.enemies_group.insert(len(self.enemies_group), self.enemy)
         # Add group position index for future deletion
         self.enemy.group_index = len(self.enemies_group) - 1
 
-        self.enemies_group.append(self.enemy2)
-        self.enemy.group_index = len(self.enemies_group) - 1
+        self.enemies_group.insert(len(self.enemies_group), self.enemy2)
+        self.enemy2.group_index = len(self.enemies_group) - 1
+
+        self.enemies_group.insert(len(self.enemies_group), self.enemy3)
+        self.enemy3.group_index = len(self.enemies_group) - 1
 
     def main(self):
         self.tmxdata = load_pygame(self.current_map_path)
@@ -114,9 +118,10 @@ class Game:
             if enemy_index >= 0:
                 enemy: Enemy = self.enemies_group[enemy_index]
                 enemy.takeDamage(50)
-                print(f"enemy {enemy_index} : rect {enemy.rect}")
+                print(
+                    f"enemy {enemy_index} : rect {enemy.rect} : is_alive {enemy.is_alive}"
+                )
                 print(f"colided with enemy {enemy_index}")
-                print(f"sword rect {self.player.sword.rect}")
 
             # self.player2.update(self.tmxdata, self.window)
             # self.player2.render(self.tmxdata, self.window)
