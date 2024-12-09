@@ -64,6 +64,7 @@ class Enemy(pygame.sprite.Sprite):
 
         # Adding the sword as an attribute
         self.shovel = Shovel(self)
+        self.last_fired = 0
 
     def update(self, tmxdata, window):
 
@@ -110,7 +111,7 @@ class Enemy(pygame.sprite.Sprite):
         )
 
         # Animation - Select Direction ↓ (animation)
-        if now - self.last_update > 1000:
+        if now - self.last_update > 1000 and self.animate == True:
             self.last_update = now
             self.last_direction_index = (self.last_direction_index + 1) % len(
                 self.directions
@@ -259,6 +260,33 @@ class Enemy(pygame.sprite.Sprite):
             self.y + self.game.world_offset[1],
         )
 
+        selfVector = pygame.Vector2(self.rect.center)
+        playerVector = pygame.Vector2(self.game.player.rect.center)
+        distance = selfVector.distance_to(playerVector)
+
+        # print(distance)
+        # print(self.shovel.detached)
+
+        # Update the sword position to follow the player
+        self.shovel.update_position(self.LAST_DIRECTION)
+
+        if distance < 300:
+            if now - self.last_fired > 1000 and self.shovel.detached == False:
+
+                self.last_fired = now
+                self.shovel.attack(self.last_direction)
+                self.shovel.detached = True
+
+                self.animate = False
+                self.direction = "stand"
+
+            if now - self.last_fired > 3000 and self.shovel.detached == True:
+                # Adding the sword as an attribute
+                self.shovel = Shovel(self)
+
+        else:
+            self.animate = True
+
     def render(self, window, world_offset):
         # Draw the player with offset - not to move with window
         x = self.x + world_offset[0]
@@ -321,8 +349,8 @@ class Enemy(pygame.sprite.Sprite):
             self.shovel.rect.x,
             self.shovel.rect.y,
             (255, 0, 255),
-            self.shovel.width,
-            self.shovel.height,
+            self.shovel.rect.width,
+            self.shovel.rect.height,
         )
 
         window.blit(

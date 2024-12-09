@@ -65,19 +65,15 @@ class Shovel(pygame.sprite.Sprite):
                 self.rect.width, self.rect.height = self.rect.height, self.rect.width
                 self.rect.center = self.entity.rect.center
 
-            self.entity_last_direction = entity_direction
-
+            self.last_direction = entity_direction
         elif self.detached == True:
-
             self.rect.x = (
-                self.rect.x - 15
-                if self.entity_last_direction == "left"
-                else self.rect.x + 15
+                self.rect.x - 15 if self.last_direction == "left" else self.rect.x + 15
             )
-            
+
         self.vector = pygame.Vector2(self.rect.center)
 
-    def attack(self, last_direction="left"):
+    def attack(self, last_direction="right"):
         if self.detached == False:
             if last_direction == "right":
                 self.image = pygame.transform.rotate(self.image_original, 90)

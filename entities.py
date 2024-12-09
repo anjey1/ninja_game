@@ -7,7 +7,7 @@ PIXELS_IN_TILE = 32
 
 
 class Entity(pygame.sprite.Sprite):
-    def __init__(self, game, x=700, y=500):
+    def __init__(self, game, x=700, y=200):
         from main import Game
 
         """Player Object
