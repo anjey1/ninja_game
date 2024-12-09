@@ -1,5 +1,6 @@
 import pygame
 from utils import get_tile_properties_enemies, load_images, drawInticator
+from weapons import Shovel
 
 PIXELS_IN_TILE = 32
 
@@ -53,10 +54,16 @@ class Enemy(pygame.sprite.Sprite):
         self.standing_on = None
         self.touching = None
         self.ray_casting = None
+        self.animate = True
 
         self.image = pygame.Surface((self.player_width, self.player_height))
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
+
+        self.vector = pygame.Vector2(self.rect.center)
+
+        # Adding the sword as an attribute
+        self.shovel = Shovel(self)
 
     def update(self, tmxdata, window):
 
@@ -111,78 +118,78 @@ class Enemy(pygame.sprite.Sprite):
             self.last_direction = self.directions[self.last_direction_index]
             self.ray_casting = {"ground": 1}  # TODO: use the default array from utils
 
-        # LEFT/RIGHT logic HERE ↓ (collision)
+            # LEFT/RIGHT logic HERE ↓ (collision)
+        if self.animate == True:
+            if self.ray_casting["ground"] != 0:
+                if self.last_direction == "left":
+                    left_tile = get_tile_properties_enemies(
+                        tmxdata,
+                        self.x,  # - LR_MOVMENT_OFFSET
+                        self.y + self.player_height - 16,
+                        self.game.world_offset,
+                    )  # center middle +10 on x
 
-        if self.ray_casting["ground"] != 0:
-            if self.last_direction == "left":
-                left_tile = get_tile_properties_enemies(
+                    if left_tile["solid"] == 0:
+                        self.x = self.x - 15
+                        self.LAST_DIRECTION = self.direction = "left"
+
+                if self.last_direction == "right":
+                    right_tile = get_tile_properties_enemies(
+                        tmxdata,
+                        self.x + self.player_width,  # - LR_MOVMENT_OFFSET
+                        self.y + self.player_height - 16,
+                        self.game.world_offset,
+                    )  # center middle +10 on x
+
+                    if right_tile["solid"] == 0:
+                        self.x = self.x + 15
+                        self.LAST_DIRECTION = self.direction = "right"
+
+                # if keypressed[ord("w")]:
+                #     if self.standing_on["ground"] == 1:
+                #         self.player_jump_frame = 40
+
+                # if keypressed[ord("s")]:
+                #     pass
+
+            if self.last_direction == "stand":  # No key is pressed
+                if self.direction != "stand":
+                    self.direction = "stand"
+
+            # JUMP/FALL logic HERE ↓ (movment)
+
+            if self.player_jump_frame > 0:  # Jumping in progress
+
+                # Get Tile Above - Check for ground - Axis Y
+                above_tile = get_tile_properties_enemies(
                     tmxdata,
-                    self.x,  # - LR_MOVMENT_OFFSET
-                    self.y + self.player_height - 16,
+                    self.x + (self.player_width / 2),  # - LR_MOVMENT_OFFSET
+                    self.y + (self.player_height / 2),
                     self.game.world_offset,
-                )  # center middle +10 on x
+                )
 
-                if left_tile["solid"] == 0:
-                    self.x = self.x - 15
-                    self.LAST_DIRECTION = self.direction = "left"
+                pygame.draw.rect(
+                    window,
+                    (255, 0, 0),
+                    (
+                        # Where
+                        self.x + self.game.world_offset[0] + (self.player_width / 2),
+                        self.y + self.game.world_offset[1] + (self.player_height / 2),
+                        # What
+                        self.player_width,
+                        self.player_height,
+                    ),
+                    2,
+                )
 
-            if self.last_direction == "right":
-                right_tile = get_tile_properties_enemies(
-                    tmxdata,
-                    self.x + self.player_width,  # - LR_MOVMENT_OFFSET
-                    self.y + self.player_height - 16,
-                    self.game.world_offset,
-                )  # center middle +10 on x
+                if above_tile["ground"] == 0:
+                    self.y = self.y - 10
+                    self.direction = "jump"
+                    self.player_jump_frame -= 1  # 20 - 1
+                else:
+                    self.player_jump_frame = 0
 
-                if right_tile["solid"] == 0:
-                    self.x = self.x + 15
-                    self.LAST_DIRECTION = self.direction = "right"
-
-            # if keypressed[ord("w")]:
-            #     if self.standing_on["ground"] == 1:
-            #         self.player_jump_frame = 40
-
-            # if keypressed[ord("s")]:
-            #     pass
-
-        if self.last_direction == "stand":  # No key is pressed
-            if self.direction != "stand":
-                self.direction = "stand"
-
-        # JUMP/FALL logic HERE ↓ (movment)
-
-        if self.player_jump_frame > 0:  # Jumping in progress
-
-            # Get Tile Above - Check for ground - Axis Y
-            above_tile = get_tile_properties_enemies(
-                tmxdata,
-                self.x + (self.player_width / 2),  # - LR_MOVMENT_OFFSET
-                self.y + (self.player_height / 2),
-                self.game.world_offset,
-            )
-
-            pygame.draw.rect(
-                window,
-                (255, 0, 0),
-                (
-                    # Where
-                    self.x + self.game.world_offset[0] + (self.player_width / 2),
-                    self.y + self.game.world_offset[1] + (self.player_height / 2),
-                    # What
-                    self.player_width,
-                    self.player_height,
-                ),
-                2,
-            )
-
-            if above_tile["ground"] == 0:
-                self.y = self.y - 10
-                self.direction = "jump"
-                self.player_jump_frame -= 1  # 20 - 1
-            else:
-                self.player_jump_frame = 0
-
-        elif self.standing_on["ground"] == 0:
+        if self.standing_on["ground"] == 0:
             self.y = self.y + 10
             self.direction = "land"
 
@@ -307,6 +314,25 @@ class Enemy(pygame.sprite.Sprite):
                 self.player_stand_frame = (self.player_stand_frame + 1) % len(
                     self.assets["player_stand"]
                 )
+
+        # touching
+        drawInticator(
+            window,
+            self.shovel.rect.x,
+            self.shovel.rect.y,
+            (255, 0, 255),
+            self.shovel.width,
+            self.shovel.height,
+        )
+
+        window.blit(
+            pygame.transform.flip(
+                self.shovel.image,
+                True,
+                False,
+            ),
+            (self.shovel.rect.x, self.shovel.rect.y),
+        )
 
     def takeDamage(self, damage: int = 10):
         self.health -= damage
