@@ -1,3 +1,4 @@
+import sys
 import pygame, time, random
 from pygame.locals import *
 from pytmx.util_pygame import load_pygame
@@ -72,6 +73,11 @@ class Game:
         self.enemy3.group_index = len(self.enemies_group) - 1
 
     def main(self):
+        if not pygame.display.get_init():
+            print("Pygame display not initialized. Exiting program.")
+            pygame.quit()  # Optional: Clean up any pygame resources
+            sys.exit()  # Exit the program
+
         self.tmxdata = load_pygame(self.current_map_path)
         self.quit = False
 
@@ -83,7 +89,7 @@ class Game:
             self.window.fill((3, 194, 252))
             blit_all_tiles(self.window, self.tmxdata, self.world_offset)
 
-            drawHud(self.window, self.player, self.enemy2, self.health, self.points)
+            drawHud(self.window, self.player, self.enemy, self.health, self.points)
             # ******* Proccess events **********
 
             for event in pygame.event.get():

@@ -32,7 +32,9 @@ def load_images(path, flip=False, img_width=player_width, img_height=player_heig
         images.append(load_image(path + "/" + img_name))
 
     images = [
-        pygame.transform.scale(image, (img_width, img_height)) for image in images
+        pygame.transform.scale(image, (img_width, img_height))
+        for image in images
+        if image is not None
     ]
 
     if flip:
