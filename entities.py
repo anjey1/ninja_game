@@ -7,7 +7,7 @@ PIXELS_IN_TILE = 32
 
 
 class Entity(pygame.sprite.Sprite):
-    def __init__(self, game, x=400, y=200):
+    def __init__(self, game, x=700, y=500):
         from main import Game
 
         """Player Object
@@ -35,6 +35,7 @@ class Entity(pygame.sprite.Sprite):
         # Add rectangle for collisions - maybe there is a better way to handle collisions
         self.image = pygame.Surface((self.player_width, self.player_height))
         self.rect = self.image.get_rect()
+        self.vector = pygame.Vector2(self.rect.center)
 
         # Adding the sword as an attribute
         self.sword = Sword(self)
@@ -44,7 +45,7 @@ class Entity(pygame.sprite.Sprite):
         self.player_left_frame = 0
         self.player_jump_frame = 0
 
-        self.LAST_DIRECTION = ""
+        self.LAST_DIRECTION = "right"
 
         # Maintain our direction
         self.direction = "stand"
@@ -110,8 +111,6 @@ class Entity(pygame.sprite.Sprite):
             if standing_on["ground"] == 1:
                 self.player_jump_frame = 40
 
-        if keypressed[ord("s")]:
-            pass
         if sum(keypressed) == 0:  # No key is pressed
             if self.direction != "stand":
                 self.direction = "stand"
@@ -138,6 +137,13 @@ class Entity(pygame.sprite.Sprite):
         elif standing_on["ground"] == 0:
             self.y = self.y + 10
             self.direction = "land"
+
+        # Update the sword position to follow the player
+        self.sword.update_position(self.LAST_DIRECTION)
+
+        if keypressed[ord("s")]:
+            # Update the sword position to follow the player
+            self.sword.attack(self.LAST_DIRECTION)
 
         # Touching logic x axis
 
@@ -209,9 +215,7 @@ class Entity(pygame.sprite.Sprite):
 
         # Update rect location
         self.rect.center = (self.x, self.y)
-
-        # Update the sword position to follow the player
-        self.sword.update_position(self.direction)
+        self.vector = pygame.Vector2(self.rect.center)
 
     def render(self, tmxdata, window):
         # Draw the player
@@ -282,8 +286,8 @@ class Entity(pygame.sprite.Sprite):
             self.sword.rect.x,
             self.sword.rect.y,
             (255, 0, 255),
-            self.sword.width,
-            self.sword.height,
+            self.sword.rect.width,
+            self.sword.rect.height,
         )
 
         window.blit(
