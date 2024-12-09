@@ -11,9 +11,16 @@ player_height = 70
 
 # the function in charge of loading images/sprites
 def load_image(path):
-    img = pygame.image.load(BASE_IMG_PATH + path).convert()
-    img.set_colorkey((0, 0, 0))
-    return img
+    try:
+        if pygame.display.get_init():
+            img = pygame.image.load(BASE_IMG_PATH + path).convert()
+            img.set_colorkey((0, 0, 0))
+            return img
+        else:
+            pass
+    except Exception as e:
+        print(e)
+        raise (e)
 
 
 # this function is in charge of loading sets of images into array
@@ -25,7 +32,9 @@ def load_images(path, flip=False, img_width=player_width, img_height=player_heig
         images.append(load_image(path + "/" + img_name))
 
     images = [
-        pygame.transform.scale(image, (img_width, img_height)) for image in images
+        pygame.transform.scale(image, (img_width, img_height))
+        for image in images
+        if image is not None
     ]
 
     if flip:
@@ -67,7 +76,8 @@ def drawInticator(
     x=0,
     y=0,
     color=(255, 255, 0),
-    indicatorSize=16,
+    indicatorSizeX=16,
+    indicatorSizeY=16,
 ):
     """_summary_
 
@@ -87,8 +97,8 @@ def drawInticator(
             x,
             y,
             # What Size
-            indicatorSize,
-            indicatorSize,
+            indicatorSizeX,
+            indicatorSizeY,
         ),
         2,
     )
@@ -162,6 +172,8 @@ def get_tile_properties_enemies(tmxdata, x, y, world_offset):
 
     Returns:
         dict: {"climable": 0,"ground": 0,"health": 0,"points": 0,"provides": "","requires": "","solid": 0}
+
+    when enemies pick tile they use their local position
     """
     world_x = x
     world_y = y
