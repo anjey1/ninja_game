@@ -38,9 +38,6 @@ class Shovel(pygame.sprite.Sprite):
                 self.image = pygame.transform.rotate(self.image_original, 90)
                 self.rect = self.image.get_rect()
 
-                # Adjust the rect for horizontal alignment
-                self.rect.width, self.rect.height = self.rect.height, self.rect.width
-
                 # Position the sword to the right of the player
                 self.rect.midleft = (
                     self.entity.rect.midbottom[0] + 50,
@@ -49,9 +46,6 @@ class Shovel(pygame.sprite.Sprite):
             elif entity_direction == "left":
                 self.image = pygame.transform.rotate(self.image_original, 270)
                 self.rect = self.image.get_rect()
-
-                # Adjust the rect for horizontal alignment
-                self.rect.width, self.rect.height = self.rect.height, self.rect.width
 
                 self.rect.midleft = (
                     self.entity.rect.midbottom[0] - 50,
@@ -68,13 +62,13 @@ class Shovel(pygame.sprite.Sprite):
             self.entity_last_direction = entity_direction
 
         elif self.detached == True:
-
+            # moving the weapon after detach
             self.rect.x = (
                 self.rect.x - 15
                 if self.entity_last_direction == "left"
                 else self.rect.x + 15
             )
-            
+
         self.vector = pygame.Vector2(self.rect.center)
 
     def attack(self, last_direction="left"):

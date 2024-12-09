@@ -110,7 +110,7 @@ class Enemy(pygame.sprite.Sprite):
         )
 
         # Animation - Select Direction ↓ (animation)
-        if now - self.last_update > 1000:
+        if now - self.last_update > 1000 and self.animate == True:
             self.last_update = now
             self.last_direction_index = (self.last_direction_index + 1) % len(
                 self.directions
@@ -118,7 +118,7 @@ class Enemy(pygame.sprite.Sprite):
             self.last_direction = self.directions[self.last_direction_index]
             self.ray_casting = {"ground": 1}  # TODO: use the default array from utils
 
-            # LEFT/RIGHT logic HERE ↓ (collision)
+        # LEFT/RIGHT logic HERE ↓ (collision)
         if self.animate == True:
             if self.ray_casting["ground"] != 0:
                 if self.last_direction == "left":
@@ -259,10 +259,40 @@ class Enemy(pygame.sprite.Sprite):
             self.y + self.game.world_offset[1],
         )
 
+        # Update the sword position to follow the player
+        self.shovel.update_position(self.LAST_DIRECTION)
+
+        self.vector = pygame.Vector2(self.rect.center)
+
+        self.player_vector = self.game.player.vector
+        distance = self.vector.distance_to(self.player_vector)
+        # print(distance)
+        # print(self.shovel.detached)
+
+        if distance < 300:
+            if now - self.last_update > 1000 and self.shovel.detached == False:
+                self.last_fired = now
+                # sword moving on self.detached == True
+                self.shovel.attack(self.LAST_DIRECTION)  # self.shovel.detached == True
+                self.shovel.detached = True
+
+            elif distance < 300 and self.shovel.detached == True:
+                if now - self.last_fired > 3000:
+                    # Adding the sword as an attribute
+                    self.shovel = Shovel(self)
+
+            # Update player behaviour
+            self.animate = False
+            self.direction = "stand"
+
+        else:
+            self.animate = True
+
     def render(self, window, world_offset):
         # Draw the player with offset - not to move with window
         x = self.x + world_offset[0]
         y = self.y + world_offset[1]
+
         if self.direction == "left":
             window.blit(self.assets["player_left"][self.player_left_frame], (x, y))
             self.player_left_frame = (self.player_left_frame + 1) % len(
@@ -321,8 +351,8 @@ class Enemy(pygame.sprite.Sprite):
             self.shovel.rect.x,
             self.shovel.rect.y,
             (255, 0, 255),
-            self.shovel.width,
-            self.shovel.height,
+            self.shovel.rect.width,
+            self.shovel.rect.height,
         )
 
         window.blit(
