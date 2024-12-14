@@ -7,7 +7,7 @@ PIXELS_IN_TILE = 32
 
 
 class Entity(pygame.sprite.Sprite):
-    def __init__(self, game, x=400, y=200):
+    def __init__(self, game, x=700, y=200):
         from main import Game
 
         """Player Object
@@ -35,6 +35,7 @@ class Entity(pygame.sprite.Sprite):
         # Add rectangle for collisions - maybe there is a better way to handle collisions
         self.image = pygame.Surface((self.player_width, self.player_height))
         self.rect = self.image.get_rect()
+        self.vector = pygame.Vector2(self.rect.center)
 
         # Adding the sword as an attribute
         self.sword = Sword(self)
@@ -44,7 +45,7 @@ class Entity(pygame.sprite.Sprite):
         self.player_left_frame = 0
         self.player_jump_frame = 0
 
-        self.LAST_DIRECTION = ""
+        self.LAST_DIRECTION = "right"
 
         # Maintain our direction
         self.direction = "stand"
@@ -110,8 +111,6 @@ class Entity(pygame.sprite.Sprite):
             if standing_on["ground"] == 1:
                 self.player_jump_frame = 40
 
-        if keypressed[ord("s")]:
-            pass
         if sum(keypressed) == 0:  # No key is pressed
             if self.direction != "stand":
                 self.direction = "stand"
@@ -139,28 +138,41 @@ class Entity(pygame.sprite.Sprite):
             self.y = self.y + 10
             self.direction = "land"
 
+        # Update the sword position to follow the player
+        self.sword.update_position(self.LAST_DIRECTION)
+
+        if keypressed[ord("s")]:
+            # Update the sword position to follow the player
+            self.sword.attack(self.LAST_DIRECTION)
+
         # Touching logic x axis
+
+        touchingX = self.x + self.moving_x_direction
+        touchingY = self.y + self.player_height - 20
+
         if self.direction == "right":
-            self.moving_x_direction = self.player_width
+            self.moving_x_direction = self.player_width // 2
         if self.direction == "left":
             self.moving_x_direction = 0
 
         # Get Tile Aside - Check for solid - Axis X
         touching = get_tile_properties(
             tmxdata,
-            self.x + self.moving_x_direction,
-            self.y + self.player_height - 10,
+            touchingX,
+            touchingY,
             self.game.world_offset,
         )
 
         # touching
+        # render -> self.x
         drawInticator(
             window,
-            self.x + self.moving_x_direction,
-            self.y + self.player_height - 10,
+            touchingX,
+            touchingY,
             (255, 0, 255),
         )
 
+        # ememy object top corner - self.x
         pygame.draw.rect(
             window,
             (0, 0, 255),
@@ -187,8 +199,8 @@ class Entity(pygame.sprite.Sprite):
         if touching.get("points") != None:
             self.game.points += touching["points"]
             if touching.get("remove") is not None and touching["remove"] == True:
-                tile_y = (self.y - self.game.world_offset[1] + 50) // PIXELS_IN_TILE
-                tile_x = (self.x - self.game.world_offset[0]) // PIXELS_IN_TILE
+                tile_x = (touchingX - self.game.world_offset[0]) // PIXELS_IN_TILE
+                tile_y = (touchingY - self.game.world_offset[1]) // PIXELS_IN_TILE
                 print(f"Tile Removed{tile_x,tile_y}")
                 tmxdata.layers[0].data[tile_y][tile_x] = 0
 
@@ -203,9 +215,7 @@ class Entity(pygame.sprite.Sprite):
 
         # Update rect location
         self.rect.center = (self.x, self.y)
-
-        # Update the sword position to follow the player
-        self.sword.update_position()
+        self.vector = pygame.Vector2(self.rect.center)
 
     def render(self, tmxdata, window):
         # Draw the player
@@ -266,6 +276,20 @@ class Entity(pygame.sprite.Sprite):
                 )
 
         # Sword
+        # self.sword.image = pygame.transform.rotate(
+        #     self.sword.image, self.sword.current_angle
+        # )  # Rotate by 45 degrees
+
+        # touching
+        drawInticator(
+            window,
+            self.sword.rect.x,
+            self.sword.rect.y,
+            (255, 0, 255),
+            self.sword.rect.width,
+            self.sword.rect.height,
+        )
+
         window.blit(
             pygame.transform.flip(
                 self.sword.image,
