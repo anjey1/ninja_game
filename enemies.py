@@ -154,7 +154,7 @@ class Enemy(pygame.sprite.Sprite):
                         self.x = self.x + 15
                         self.LAST_DIRECTION = self.direction = "right"
 
-                # if keypressed[ord("w")]:
+                # if self.last_direction == "jump":
                 #     if self.standing_on["ground"] == 1:
                 #         self.player_jump_frame = 40
 
