@@ -219,18 +219,21 @@ def update_enemies(game, tmxdata, window, world_offset):
 def moveWindow(game, window, player):
     # World Moves - Handle world offset
     # print(f"{self.player.y,self.player.x}")
-    if player.y < 134:
-        player.y = 134
+    # maximum y position for player (0,0) - (0,100)
+    if player.y < 100:
+        player.y = 100
         game.world_offset[1] += 10
 
     if player.y > game.y:
         player.y = game.y
         game.world_offset[1] -= 10
 
+    # minimum x position for player (0,0) - (340,0)
     if player.x < 340:
         player.x = 340
         game.world_offset[0] += 10
 
+    # Move the game view by shifting world offset
     if player.x > window.get_width() - 340 - 50:
         player.x = window.get_width() - 340 - 50
         game.world_offset[0] -= 10
