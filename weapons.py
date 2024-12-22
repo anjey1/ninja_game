@@ -175,7 +175,6 @@ class Sword(pygame.sprite.Sprite):
                 self.player.rect.midbottom[1],
             )
 
-            # print(last_direction)
         elif last_direction == "left":
             self.image = pygame.transform.rotate(self.image_original, 270)
             self.rect = self.image.get_rect()
@@ -184,5 +183,3 @@ class Sword(pygame.sprite.Sprite):
                 self.player.rect.midbottom[0] - 50,
                 self.player.rect.midbottom[1],
             )
-
-            # print(last_direction)
