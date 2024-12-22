@@ -1,6 +1,8 @@
 import pygame
 from utils import get_tile_properties_enemies, load_images, drawInticator
 from weapons import Shovel
+from wearables import Band
+
 
 PIXELS_IN_TILE = 32
 
@@ -65,6 +67,9 @@ class Enemy(pygame.sprite.Sprite):
         # Adding the sword as an attribute
         self.shovel = Shovel(self)
         self.last_fired = 0
+
+        # Adding wearables
+        self.band = Band(self)
 
     def update(self, tmxdata, window):
 
@@ -269,6 +274,7 @@ class Enemy(pygame.sprite.Sprite):
 
         # Update the sword position to follow the player
         self.shovel.update_position(self.LAST_DIRECTION)
+        self.band.update_position(self.LAST_DIRECTION)
 
         if distance < 300:
             if now - self.last_fired > 1000 and self.shovel.detached == False:
@@ -360,6 +366,11 @@ class Enemy(pygame.sprite.Sprite):
                 False,
             ),
             (self.shovel.rect.x, self.shovel.rect.y),
+        )
+
+        window.blit(
+            self.band.image,
+            (self.band.rect.x, self.band.rect.y),
         )
 
     def takeDamage(self, damage: int = 10):
