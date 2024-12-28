@@ -59,6 +59,13 @@ class Entity(pygame.sprite.Sprite):
 
         keypressed = pygame.key.get_pressed()
 
+        # continue dialog
+        if self.game.dialog_active and keypressed != "":
+            keypressed = pygame.key.get_pressed()
+            if keypressed[ord("k")]:
+                self.game.dialog_active = not self.game.dialog_view.next_line()
+                self.game.npc.spoke_to_hero = True
+
         # ******** Collisions ********
 
         # Bottom Center Player Sprite

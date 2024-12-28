@@ -76,6 +76,9 @@ class NPC(pygame.sprite.Sprite):
         # Adding wearables
         self.band = Band(self)
 
+        # Spoke to hero
+        self.spoke_to_hero = False
+
     def update(self, tmxdata, window):
 
         now = pygame.time.get_ticks()

@@ -7,6 +7,7 @@ from utils import blit_all_tiles, moveWindow, update_enemies
 from entities import Entity
 from enemies import Enemy
 from hud import drawHud
+from dialog import Dialog
 
 BASE_IMG_PATH = "data/images/"
 PIXELS_IN_TILE = 32
@@ -24,7 +25,7 @@ class Game:
         # pygame.mixer.init()
         pygame.display.set_caption("Jhonny C")
         width, height = 1200, 640
-        self.current_map_path = "data\maps\map.tmx"
+        self.current_map_path = "data/maps/map.tmx"
         self.current_map_verbose = "map"
 
         # string
@@ -49,9 +50,14 @@ class Game:
             self.window.get_height() - 400
         )  # see 400 below player when standing on surface
 
+        # Dialog
+        self.dialog_active = False
+        self.dialog_view = Dialog(self.window)
+
         # change from camera original setting (x,y)
         self.world_offset = [0, 0]  # [340, 130] = [0,0]
         self.enemies_group = []
+        self.npc_group = []
         # self.animations_group = pygame.sprite.Group()
 
         self.player = Entity(self)
@@ -59,6 +65,7 @@ class Game:
         self.enemy2: Enemy = Enemy(self, 1300, 20)
         self.enemy3: Enemy = Enemy(self, 1600, 100)
         self.npc: NPC = NPC(self, 400, 200)
+        self.npc.__name__ = "albert"
         # self.player2 = Entity(self,600)
 
         self.player_group = pygame.sprite.GroupSingle(self.player)
@@ -75,6 +82,9 @@ class Game:
 
         self.enemies_group.insert(len(self.enemies_group), self.enemy3)
         self.enemy3.group_index = len(self.enemies_group) - 1
+
+        self.npc_group.insert(len(self.npc_group), self.npc)
+        self.npc.group_index = len(self.npc_group) - 1
 
     def main(self):
         if not pygame.display.get_init():
@@ -125,6 +135,7 @@ class Game:
 
             # return enemy index from enemy group
             enemy_index = self.player.sword.rect.collidelist(self.enemies_group)
+            npc_index = self.player.rect.collidelist(self.npc_group)
 
             # use enemy index to deal damage
             if enemy_index >= 0:
@@ -134,6 +145,21 @@ class Game:
                     f"enemy {enemy_index} : rect {enemy.rect} : is_alive {enemy.is_alive}"
                 )
                 print(f"colided with enemy {enemy_index}")
+
+            # use enemy index to deal damage
+            if npc_index >= 0:
+                npc: NPC = self.npc_group[npc_index]
+                # if npc.spoke_to_hero != True:
+                self.dialog_active = True
+                print(
+                    f"npc {npc_index} : rect {npc.rect.x, npc.rect.y} : is_alive {npc.is_alive} : spoken_to {npc.spoke_to_hero}"
+                )
+                print(f"colided with npc {npc_index}")
+            else:
+                self.dialog_active = False
+
+            if self.dialog_active == True:
+                self.dialog_view.render(self.window)
 
             # self.player2.update(self.tmxdata, self.window)
             # self.player2.render(self.tmxdata, self.window)
