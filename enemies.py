@@ -7,7 +7,12 @@ PIXELS_IN_TILE = 32
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(
-        self, game, x=400, y=200, directions=["stand", "left", "stand", "right"]
+        self,
+        game,
+        x=400,
+        y=200,
+        directions=["stand", "left", "stand", "right"],
+        name="default",
     ):
         from main import Game
 
@@ -20,8 +25,10 @@ class Enemy(pygame.sprite.Sprite):
             directions (list, optional): _description_. Defaults to ["stand", "left", "stand", "right"].
         """
         super().__init__()
+
         self.player_width = 50
         self.player_height = 70
+        self.name = name
         self.x = x
         self.y = y
         self.is_alive = True
@@ -64,6 +71,7 @@ class Enemy(pygame.sprite.Sprite):
 
         # Adding the sword as an attribute
         self.shovel = Shovel(self)
+        self.shovel.attack_direction = "right"
         self.last_fired = 0
 
     def update(self, tmxdata, window):
@@ -267,12 +275,17 @@ class Enemy(pygame.sprite.Sprite):
         # print(distance)
         # print(self.shovel.detached)
 
-        # Update the sword position to follow the player
-        self.shovel.update_position(self.LAST_DIRECTION)
-
+        # Raycast Left And Right - Detect if player close up to 300
         if distance < 300:
+
+            self.shovel.attack_direction = (
+                "right" if playerVector.x - selfVector.x > 0 else "left"
+            )
+
+            # Attach shovel if a in attack mode every second
             if now - self.last_fired > 1000 and self.shovel.detached == False:
 
+                self.shovel.last_direction = self.shovel.attack_direction
                 self.last_fired = now
                 self.shovel.attack(self.last_direction)
                 self.shovel.detached = True
@@ -280,12 +293,17 @@ class Enemy(pygame.sprite.Sprite):
                 self.animate = False
                 self.direction = "stand"
 
+            # Detach shovel if a in attack mode every second
             if now - self.last_fired > 3000 and self.shovel.detached == True:
                 # Adding the sword as an attribute
                 self.shovel = Shovel(self)
 
+            self.LAST_DIRECTION = self.shovel.attack_direction
         else:
             self.animate = True
+
+        # Update the sword position to follow the player
+        self.shovel.update_position(self.LAST_DIRECTION)
 
     def render(self, window, world_offset):
         # Draw the player with offset - not to move with window

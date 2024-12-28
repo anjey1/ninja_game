@@ -12,6 +12,7 @@ class Shovel(pygame.sprite.Sprite):
         self.width = 30
         self.height = 60
         self.detached = False
+        self.attack_direction = ""
 
         try:
             self.image = load_image("shovel.png")
@@ -67,6 +68,12 @@ class Shovel(pygame.sprite.Sprite):
 
             self.last_direction = entity_direction
         elif self.detached == True:
+
+            if self.entity.name == "enemy2":
+                print(
+                    f"entity: {self.entity.name} , self.LAS_DIRECTION: {entity_direction}"
+                )
+
             self.rect.x = (
                 self.rect.x - 15 if self.last_direction == "left" else self.rect.x + 15
             )
@@ -162,7 +169,7 @@ class Sword(pygame.sprite.Sprite):
                 self.player.rect.midbottom[1],
             )
 
-            print(last_direction)
+            # print(last_direction)
         elif last_direction == "left":
             self.image = pygame.transform.rotate(self.image_original, 270)
             self.rect = self.image.get_rect()
@@ -172,4 +179,4 @@ class Sword(pygame.sprite.Sprite):
                 self.player.rect.midbottom[1],
             )
 
-            print(last_direction)
+            # print(last_direction)

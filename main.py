@@ -25,15 +25,15 @@ class Game:
         width, height = 1200, 640
         self.current_map_path = "data\maps\map.tmx"
         self.current_map_verbose = "map"
-        
+
         # string
         # list - iter []
         # tuple - (1, 2, {1:2}, [])
         # dict - iter {"key":"value"}
 
         self.location_maps = {
-            "map" : "data\maps\map.tmx",
-            "cave" : "data\maps\cave.tmx",
+            "map": "data\maps\map.tmx",
+            "cave": "data\maps\cave.tmx",
         }
 
         # self.tmxdata = load_pygame("data\maps\map.tmx")
@@ -52,9 +52,11 @@ class Game:
         # self.animations_group = pygame.sprite.Group()
 
         self.player = Entity(self)
-        self.enemy: Enemy = Enemy(self, 120, 120, ["stand", "right", "stand", "left"])
-        self.enemy2: Enemy = Enemy(self, 600, 200)
-        self.enemy3: Enemy = Enemy(self, 300, 200)
+        self.enemy: Enemy = Enemy(
+            self, 120, 120, ["stand", "right", "stand", "left"], name="enemy"
+        )
+        self.enemy2: Enemy = Enemy(self, 600, 200, name="enemy2")
+        self.enemy3: Enemy = Enemy(self, 300, 200, name="enemy3")
         # self.player2 = Entity(self,600)
 
         self.player_group = pygame.sprite.GroupSingle(self.player)
