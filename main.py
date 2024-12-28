@@ -41,22 +41,22 @@ class Game:
         self.window = pygame.display.set_mode((width, height))
         self.clock = pygame.time.Clock()
 
-        self.x = 400
+        self.x = 0
 
         # Horizon
-        self.y = self.window.get_height() - 234  # 640-234
+        self.y = (
+            self.window.get_height() - 400
+        )  # see 400 below player when standing on surface
 
         # change from camera original setting (x,y)
-        self.world_offset = [0, 0]
+        self.world_offset = [0, 0]  # [340, 130] = [0,0]
         self.enemies_group = []
         # self.animations_group = pygame.sprite.Group()
 
         self.player = Entity(self)
-        self.enemy: Enemy = Enemy(
-            self, 120, 120, ["stand", "right", "stand", "left"], name="enemy"
-        )
-        self.enemy2: Enemy = Enemy(self, 600, 200, name="enemy2")
-        self.enemy3: Enemy = Enemy(self, 300, 200, name="enemy3")
+        self.enemy: Enemy = Enemy(self, 120, 120, ["stand", "right", "stand", "left"])
+        self.enemy2: Enemy = Enemy(self, 1300, 20)
+        self.enemy3: Enemy = Enemy(self, 1600, 100)
         # self.player2 = Entity(self,600)
 
         self.player_group = pygame.sprite.GroupSingle(self.player)

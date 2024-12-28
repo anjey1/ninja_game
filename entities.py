@@ -1,5 +1,6 @@
 import pygame
 from pytmx.util_pygame import load_pygame
+from collections import namedtuple
 from utils import get_tile_properties, load_images, drawInticator
 from weapons import Sword
 
@@ -7,7 +8,7 @@ PIXELS_IN_TILE = 32
 
 
 class Entity(pygame.sprite.Sprite):
-    def __init__(self, game, x=700, y=200):
+    def __init__(self, game, x=0, y=0):
         from main import Game
 
         """Player Object
@@ -64,20 +65,27 @@ class Entity(pygame.sprite.Sprite):
         # -----
         # |   | <<--
         # |   | -->>
+
+        Position = namedtuple("Position", ["x", "y"])
+
+        standing_position = Position(
+            self.x + int(self.player_width / 2),
+            self.y + self.player_height + 5,
+        )
         # -----
         # Get Tile Below - Check for ground - Axis Y
         standing_on = get_tile_properties(
             tmxdata,
-            self.x + int(self.player_width / 2),
-            self.y + self.player_height + 2,
+            standing_position.x,
+            standing_position.y,
             self.game.world_offset,
         )
 
         # standing on
         drawInticator(
             window,
-            self.x + int(self.player_width / 2),
-            self.y + self.player_height,
+            standing_position.x,
+            standing_position.y,
             (255, 0, 255),
         )
 
