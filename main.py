@@ -2,6 +2,7 @@ import sys
 import pygame, time, random
 from pygame.locals import *
 from pytmx.util_pygame import load_pygame
+from npc import NPC
 from utils import blit_all_tiles, moveWindow, update_enemies
 from entities import Entity
 from enemies import Enemy
@@ -57,6 +58,7 @@ class Game:
         self.enemy: Enemy = Enemy(self, 120, 120, ["stand", "right", "stand", "left"])
         self.enemy2: Enemy = Enemy(self, 1300, 20)
         self.enemy3: Enemy = Enemy(self, 1600, 100)
+        self.npc: NPC = NPC(self, 400, 200)
         # self.player2 = Entity(self,600)
 
         self.player_group = pygame.sprite.GroupSingle(self.player)
@@ -118,11 +120,13 @@ class Game:
             # self.enemy.update(self.tmxdata, self.window)
             # self.enemy.render(self.window, self.world_offset)
 
-            # self.enemy2.update(self.tmxdata, self.window)
-            # self.enemy2.render(self.window, self.world_offset)
+            self.npc.update(self.tmxdata, self.window)
+            self.npc.render(self.window, self.world_offset)
 
+            # return enemy index from enemy group
             enemy_index = self.player.sword.rect.collidelist(self.enemies_group)
 
+            # use enemy index to deal damage
             if enemy_index >= 0:
                 enemy: Enemy = self.enemies_group[enemy_index]
                 enemy.takeDamage(50)
